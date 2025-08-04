@@ -29,6 +29,7 @@ app.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
 })
 
+app.use("/api/v1/users", userRoutes);
 server.listen(app.get("port"), () => {
     mongoose.connect(uri)       //connect with DB
         .then(() => console.log("MongoDB connected successfully"))
