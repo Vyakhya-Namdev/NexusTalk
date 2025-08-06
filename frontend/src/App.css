@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.landingPageContainer nav{
+    display: flex;
+    height: 70px;
+    flex-direction: row;
+    padding: 1rem 1rem;
+    margin: auto; 
+    justify-content: space-between;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0 3px 3px -2px rgba(0,0,0,0.2), 
+                inset 0 -1px 0 rgba(255,255,255,0.6);
+}
+
+.navHeader{
+    font-size: 1.5rem;
+    margin-left: 3rem
+}
+
+.navHeader span{
+    color: #FF7700;
+}
+
+.navList{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    margin-right: 3rem;
+}
+
+.navList a{
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+    position: relative;
+    cursor: pointer;
+}
+
+.navList a::after{
+    content: "";
+    position: absolute;  /*Underline ko anchor tag ke andar absolutely position kar deta hai.*/
+    left: 0;  /*Underline ko bilkul text ke neeche (bottom) aur left se align karta hai*/   bottom: 0;
+    width: 100%;  /*Underline ki width text ke barabar*/
+    height: 2px;  /*Underline thickness*/
+    background-color: #3b4aad; /*Underline color set*/
+    transform: scale(0);  /*Initially underline ko shrink karke invisible bana deta hai.*/
+    transform-origin: bottom right; /*line will goes to bottom-right throught shrink*/
+    transition:transform 0.25s ease-out;
+}
+
+.navList a:hover::after{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.navList a:hover{
+    color: #3b4aad;
+}
+
+.navList button{
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #FF7700;
+    color: white;
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navList button:hover{
+    transform: scale(1.1);
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: calc(100vh - 70px); 
+    padding: 0 5.5rem;
+    align-items: center;
+}
+
+.info h1{
+    font-size: 2.5rem;
+}
+
+.info span{
+    color: #FF7700;
+}
+
+.info button{
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    padding: 0.75rem 4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #FF7700;
+    color: white;
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.info button:hover{
+    transform: scale(1.1);
+}
+
+.scrollColumns {
+    display: flex;
+    gap: 20px;
+}
+
+.rightImageScroll {
+    width: 250px;
+    height: calc(100vh - 70px); /* Subtract navbar height */
+    overflow: hidden;
+    position: relative;
+}
+
+.imageTrack {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.imageTrack img {
+    width: 100%;
+    height: 350px; /* image height */
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.imageTrack.first {
+    animation: scrollVertical 8s linear infinite;
+    animation-delay: 0s;
+}
+
+.imageTrack.second {
+    animation: scrollVerticalSecond 9s linear infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes scrollVertical {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%); /* Ensure you have duplicated images for loop */
+    }
+}
+
+@keyframes scrollVerticalSecond {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%);
+    }
+}
