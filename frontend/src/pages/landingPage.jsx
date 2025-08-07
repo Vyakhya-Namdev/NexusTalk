@@ -8,9 +8,11 @@ export default function LandingPage() {
           <h2><span>Nexus</span>Talk</h2>
         </div>
         <div className='navList'>
-          <a href=''>Join as Guest</a>
-          <a href=''>Register</a>
-          <button>Login</button>
+          <a href='/aljk23' className='nav-link'>Join as Guest</a>
+          <a href='/auth' className='nav-link'>Register</a>
+          <a href='/auth'>
+            <button>Login</button>
+          </a>
         </div>
       </nav>
 
@@ -18,7 +20,9 @@ export default function LandingPage() {
         <div className='info'>
           <h1><span>Connect</span> with your Loved<br /> Ones...</h1>
           <p>From family to business, Connectly unites hearts and ideas across <br />every screen</p>
-          <button>Get Started</button>
+          <a href='/auth'>
+            <button>Get Started</button>
+          </a>
         </div>
 
         <div className="scrollColumns">

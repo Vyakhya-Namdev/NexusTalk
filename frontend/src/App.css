@@ -15,6 +15,17 @@
     box-shadow: 0 3px 3px -2px rgba(0,0,0,0.2), 
                 inset 0 -1px 0 rgba(255,255,255,0.6);
 }
+/* BOX-SHADOW
+0 → X-offset: No horizontal shift.
+3px → Y-offset: Shadow moves 3px downward.
+3px → Blur radius: Makes the shadow soft and blurry.
+-2px → Spread radius: Makes the shadow smaller (shrinks it).
+rgba(0,0,0,0.2) → Color: Black with 20% opacity.
+inset → Makes it an inner shadow.
+0 → No horizontal shift.
+-1px → 1px upward inside the element.
+0 → No blur, so the edge is sharp.
+rgba(255,255,255,0.6) → White color with 60% opacity. */
 
 .navHeader{
     font-size: 1.5rem;
@@ -32,7 +43,7 @@
     margin-right: 3rem;
 }
 
-.navList a{
+.nav-link{
     margin-right: 20px;
     text-decoration: none;
     color: black;
@@ -40,7 +51,7 @@
     cursor: pointer;
 }
 
-.navList a::after{
+.nav-link::after{
     content: "";
     position: absolute;  /*Underline ko anchor tag ke andar absolutely position kar deta hai.*/
     left: 0;  /*Underline ko bilkul text ke neeche (bottom) aur left se align karta hai*/   bottom: 0;
@@ -52,7 +63,7 @@
     transition:transform 0.25s ease-out;
 }
 
-.navList a:hover::after{
+.nav-link:hover::after{
     transform: scaleX(1);
     transform-origin: bottom left;
 }
@@ -67,6 +78,7 @@
     font-size: 1rem;
     border-radius: 5px;
     background-color: #FF7700;
+    text-decoration: none;
     color: white;
     border: none;
     transition: transform 0.3s ease-in-out;
