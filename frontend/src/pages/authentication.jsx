@@ -43,9 +43,9 @@ export default function Authentication() {
     return (
         <ThemeProvider theme={defaultTheme}>
             {/* <Background /> */}
-            <Grid container component="main" sx={{ height: '100vh', width: '100%', margin: 0, padding: 0, overflow: 'hidden' }}>
+            <Grid container component="main" sx={{ height: '100vh', width: '100%', margin: 0, padding: 0, overflow: 'hidden',display:'flex'}}>
                 <CssBaseline />
-                <Grid item xs={false} sm={6} md={6} sx={{height: "100%"}}>
+                <Grid item xs={12} sm={6} md={10} sx={{height: "100vh", width:"100%",position:"absolute"}}>
                     <Background />
                 </Grid>
 
@@ -54,11 +54,11 @@ export default function Authentication() {
                     item
                     xs={12}
                     sm={6}
-                    md={6}
+                    md={4}
                     component={Paper}
-                    elevation={6}
+                    elevation={8}
                     square
-                    sx={{ px: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    sx={{ px: 4, display: 'flex', width: "55%", alignItems: 'center', justifyContent: 'center' }}
                 >
                     <Box sx={{ width: '100%', mt: formState === 1 ? 0 : 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -82,7 +82,7 @@ export default function Authentication() {
                             </Button>
                         </Box>
 
-                        <Box component="form" sx={{ width: '100%' }}>
+                        <Box component="form" sx={{ width: '75%' }}>
                             <Box sx={{ visibility: formState === 1 ? 'visible' : 'hidden', height: formState === 1 ? 'auto' : 0 }}>
                                 <TextField
                                     margin="normal"

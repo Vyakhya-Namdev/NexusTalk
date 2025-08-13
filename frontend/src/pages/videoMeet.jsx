@@ -59,6 +59,18 @@ export default function VideoMeetComponent() {
     getPermissions()
   }, []);
 
+  let getDisplayMedia = () => {
+        if (screen) {
+            if (navigator.mediaDevices.getDisplayMedia) {
+                navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+                    .then(getDisplayMediaSuccess)
+                    .then((stream) => { })
+                    .catch((e) => console.log(e))
+            }
+        }
+    }
+
+
   //setting Permissions for screen-sharing, audio and video
   const getPermissions = async () => {
     try {
@@ -102,6 +114,7 @@ export default function VideoMeetComponent() {
       console.log("Error generated: " + err);
     }
   }
+  
 
   useEffect(() => {
     //if audio & video is not on (or defined) then, it should not be visible to other clients
@@ -186,6 +199,47 @@ export default function VideoMeetComponent() {
       }
     }
   })
+
+  
+    let getDisplayMediaSuccess = (stream) => {
+        console.log("HERE")
+        try {
+            window.localStream.getTracks().forEach(track => track.stop())
+        } catch (e) { console.log(e) }
+
+        window.localStream = stream
+        localVideoRef.current.srcObject = stream
+
+        for (let id in connections) {
+            if (id === socketIdRef.current) continue
+
+            connections[id].addStream(window.localStream)
+
+            connections[id].createOffer().then((description) => {
+                connections[id].setLocalDescription(description)
+                    .then(() => {
+                        socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
+                    })
+                    .catch(e => console.log(e))
+            })
+        }
+
+        stream.getTracks().forEach(track => track.onended = () => {
+            setScreen(false)
+
+            try {
+                let tracks = localVideoRef.current.srcObject.getTracks()
+                tracks.forEach(track => track.stop())
+            } catch (e) { console.log(e) }
+
+            let blackSilence = (...args) => new MediaStream([black(...args), silence()])
+            window.localStream = blackSilence()
+            localVideoRef.current.srcObject = window.localStream
+
+            getUserMedia()
+
+        })
+    }
 
   let gotMessageFromServer = (fromId, message) => {
     var signal = JSON.parse(message)
@@ -334,65 +388,14 @@ export default function VideoMeetComponent() {
     setAudio(!audio);
   }
 
-  let getDisplayMediaSuccess = (stream) => {
-    console.log("HERE")
-    try {
-      window.localStream.getTracks().forEach(track => track.stop())
-    } catch (e) { console.log(e) }
-
-    window.localStream = stream
-    localVideoRef.current.srcObject = stream
-
-    for (let id in connections) {
-      if (id === socketIdRef.current) continue
-
-      connections[id].addStream(window.localStream)
-
-      connections[id].createOffer().then((description) => {
-        connections[id].setLocalDescription(description)
-          .then(() => {
-            socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
-          })
-          .catch(e => console.log(e))
-      })
-    }
-
-    stream.getTracks().forEach(track => track.onended = () => {
-      setScreen(false)
-
-      try {
-        let tracks = localVideoRef.current.srcObject.getTracks()
-        tracks.forEach(track => track.stop())
-      } catch (e) { console.log(e) }
-
-      let blackSilence = (...args) => new MediaStream([black(...args), silence()])
-      window.localStream = blackSilence()
-      localVideoRef.current.srcObject = window.localStream
-
-      getUserMedia()
-
-    })
-  }
-
-  let getDisplayMedia = () => {
-    if (screen) {
-      if (navigator.mediaDevices.getDisplayMedia) {
-        navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
-          .then(getDisplayMediaSuccess)
-          .then(stream => { })
-          .catch(e => console.log(e));
-      }
-    }
-  }
-
   useEffect(() => {
-    if (screen !== undefined) {
-      getDisplayMedia();
-    }
-  }, []);
-
+        if (screen !== undefined) {
+            getDisplayMedia();
+        }
+    }, [screen])
+    
   let handleScreen = () => {
-    setScreen(!screen);
+      setScreen(!screen);
   }
   return (
     // {window.location.href} => prints the current router path of window
