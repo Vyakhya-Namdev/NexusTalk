@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { TextField, Button, Box, ThemeProvider, Grid, createTheme, Paper, Avatar, Snackbar, CssBaseline } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { AuthContext } from "../contexts/AuthContext";
+import Background from './background';
 
 const defaultTheme = createTheme();
 export default function Authentication() {
@@ -17,13 +18,13 @@ export default function Authentication() {
     const [open, setOpen] = useState(false);
 
 
-    let handleAuth = async() => {
-        try{
-            if(formState === 0){
-                let result = await handleLogin(username, password)
+    let handleAuth = async () => {
+        try {
+            if (formState === 0) {
+                let result = await handleLogin(username, password);
             }
 
-            if(formState === 1){
+            if (formState === 1) {
                 let result = await handleRegister(name, username, password);
                 console.log(result);
                 setUsername("");
@@ -33,7 +34,7 @@ export default function Authentication() {
                 setFormState(0);
                 setPassword("");
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
             let message = (err.response.data.message);
             setError(message);
@@ -41,46 +42,40 @@ export default function Authentication() {
     }
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            {/* <Background /> */}
+            <Grid container component="main" sx={{ height: '100vh', width: '100%', margin: 0, padding: 0, overflow: 'hidden' }}>
                 <CssBaseline />
-                {/* <Grid 
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                     sx={{
-                        backgroundImage: 'url(https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                /> */}
-                <Grid item xs={false} sm={6} md={7} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <img
-                        src="images/auth-img.webp"
-                        alt="auth"
-                        style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
-                    />
+                <Grid item xs={false} sm={6} md={6} sx={{height: "100%"}}>
+                    <Background />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square sx={{ px: 4, display: 'flex', py:10 }}>
+                {/* Right side form */}
+                <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={6}
+                    component={Paper}
+                    elevation={6}
+                    square
+                    sx={{ px: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
                     <Box sx={{ width: '100%', mt: formState === 1 ? 0 : 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <LockOutlinedIcon />
+
                         </Avatar>
 
                         <Box sx={{ mb: 2 }}>
-                            <Button 
-                                variant={formState === 0 ? 'contained' : 'text'} 
+                            <Button
+                                variant={formState === 0 ? 'contained' : 'text'}
                                 onClick={() => setFormState(0)}
                                 sx={{ mr: 2 }}
                             >
                                 Sign In
                             </Button>
-                            <Button 
-                                variant={formState === 1 ? 'contained' : 'text'} 
+                            <Button
+                                variant={formState === 1 ? 'contained' : 'text'}
                                 onClick={() => setFormState(1)}
                             >
                                 Sign Up

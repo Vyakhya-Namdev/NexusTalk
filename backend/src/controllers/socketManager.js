@@ -5,6 +5,7 @@ let messages = {}
 let timeOnline = {}
 
 export const connectToSocket = (server) => {
+    console.log("SOMETHING CONNECTED");    //will display if user will connect to socket-server
     const io = new Server(server, {
         //pass cors to protect it from cors errors (cors-origin-allowed)
         //pass it only while testing and not in production
