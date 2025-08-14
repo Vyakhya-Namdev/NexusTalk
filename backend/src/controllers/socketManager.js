@@ -21,7 +21,7 @@ export const connectToSocket = (server) => {
     io.on('connection', (socket) => {
         console.log('A user has connected!');
         socket.on("join-call", (path) => {
-            if(connections[path] == undefined){
+            if(connections[path] === undefined){
                 connections[path] = [];
             }
             connections[path].push(socket.id);   //find the socket id and make connection
@@ -33,7 +33,7 @@ export const connectToSocket = (server) => {
             //send message to every user connected in the network
             if(messages[path] !== undefined){
                 for(let a=0; a<messages[path].length; a++){
-                    io.to(socket.id).emit(messages[path][a]['data'], messages[path][a]['sender'], messages[path][a]['socket-id-sender']);
+                    io.to(socket.id).emit("chat message", messages[path][a]['data'], messages[path][a]['sender'], messages[path][a]['socket-id-sender']);
                 }
             }
 
@@ -43,7 +43,7 @@ export const connectToSocket = (server) => {
             io.to(toId).emit('signal', socket.id, message);
         });
 
-        socket.on('chat message', (msg, sender) => {   //server recieving msg
+        socket.on('chat message', (data, sender) => {   //server recieving msg
             // console.log('User message:' + msg);
             // io.emit('chat message', msg);       // Broadcast message to all clients
 
@@ -58,16 +58,17 @@ export const connectToSocket = (server) => {
                 }, ['', false]);
 
                 //if room found then send message
-                if(found == true){
-                    if(messages[matchingRoom] == undefined){
+                if(found === true){
+                    if(messages[matchingRoom] === undefined){
                         messages[matchingRoom] = [];
                     }
-                    messages[matchingRoom].push({"data":data, "sender":sender, "sender-id-socket": socket.id});
+                    messages[matchingRoom].push({ "data":data, "sender":sender, "sender-id-socket": socket.id });
 
-                    console.log("message", key, ":", sender, data);
+                    //message will get printed that user will enter with username who has sent that message
+                    console.log("message", matchingRoom, ":", sender, data);
 
                     connections[matchingRoom].forEach(elem => {
-                        io.to(elem).emit("chat-message", data, sender, socket.id);
+                        io.to(elem).emit("chat message", data, sender, socket.id);
                     })
                 }
         });

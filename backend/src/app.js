@@ -17,17 +17,17 @@ app.use(express.json({limit: "40kb"}));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
 //simulate directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename)
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename)
 
 //creating websocket for server
 const server = createServer(app);
 const io = connectToSocket(server);
-app.use(express.static(path.join(__dirname, "../public")));
+// app.use(express.static(path.join(__dirname, "../public")));
 
-app.get("/home", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
-})
+// app.get("/home", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../public/index.html"));
+// })
 
 app.use("/api/v1/users", userRoutes);
 server.listen(app.get("port"), () => {
