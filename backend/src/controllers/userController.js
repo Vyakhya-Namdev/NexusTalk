@@ -3,6 +3,7 @@ import bcrypt, {hash} from "bcrypt";
 import httpStatus from "http-status";    //to track the http-status for error or success
 import crypto from "crypto";   //'crypto' is use for to make token
 
+//login control
 const login = async(req, res) => {
     const { username, password } = req.body;
     if(!username || !password){
@@ -31,6 +32,7 @@ const login = async(req, res) => {
     }
 }
 
+//register control
 const register = async(req, res) => {
     const { name, username, password } = req.body;
     try{
@@ -53,5 +55,35 @@ const register = async(req, res) => {
     }
 }
 
+//history control
+const getUserHistory = async(req, res) => {
+    const {token} = req.query;
 
-export {login, register};
+    try{
+        const user = await User.findOne({token: token});
+        meetings = await Meeting.find({user_id: user.username});
+        res.json(meetings)
+    }catch(err){
+        res.join({message: `Something went wrong ${err}`});
+    }
+}
+
+//add information to history
+const addToHistory = async(req, res) => {
+    const {token, meeting_code} = req.body;
+
+    try{
+        const user = await User.findOne({ token: token });
+        const newMeeting = new Meeting({
+            user_id: user.username,
+            meetingCode: meeting_code
+        })
+
+        await newMeeting.save();
+
+        res.status(httpStatus.CREATED).json({ message: "Added code to history" })
+    }catch(err){
+        res.json({ message: `Something went wrong ${err}`});
+    }
+}
+export {login, register, getUserHistory, addToHistory};
