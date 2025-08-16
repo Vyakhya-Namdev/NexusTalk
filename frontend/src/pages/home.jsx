@@ -6,14 +6,19 @@ import IconButton from '@mui/material/IconButton';
 import RestoreIcon from "@mui/icons-material/Restore";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext.js';
 
 //this home component will be visible only to those persons who end the call
 function HomeComponent() {
 
   let navigate = useNavigate();
   let [meetingCode, setMeetingCode] = useState();
+  let {addToUserHistory} = useContext(AuthContext);
   //you'll navigate to the page of meeting code
   let handleJoinVideoCall = async () => {
+    // add video call data to history every time you join it
+    await addToUserHistory(meetingCode);
     navigate(`/${meetingCode}`);
   }
   return (
@@ -23,7 +28,7 @@ function HomeComponent() {
           <h2>NexusTalk</h2>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <IconButton>
+          <IconButton onClick={() => navigate("/history")}>
             <RestoreIcon />
           </IconButton>
           <p>History</p>

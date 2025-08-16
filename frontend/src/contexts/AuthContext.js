@@ -46,8 +46,38 @@ export const AuthProvider = ({ children }) => {
             throw err;
         }
     }
+
+    const getHisrotyOfUser = async () => {
+        try {
+            let request = await client.get("/getallactivity",
+                {
+                    params: {
+                        token: localStorage.getItem("token")
+                    }
+                }
+            );
+            return request.data;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    const addToUserHistory = async(meetingCode) => {
+        // const { token, meeting_code } = req.body;
+
+        try{
+            let request = await client.post("/addtoactivity", {
+                token: localStorage.getItem("token"),
+                meeting_code: meetingCode 
+            });
+
+            return request;
+        }catch(err){
+            throw err;
+        }
+    }
     const data = {
-        userData, setUserData, handleRegister, handleLogin
+        userData, setUserData, handleRegister, handleLogin, getHisrotyOfUser, addToUserHistory
     }
 
     return (
