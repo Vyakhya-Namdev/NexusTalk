@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -10,9 +10,24 @@ export default function LandingPage() {
   const router = useNavigate();
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    const storedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    if(token && storedUser){
+      setUser(JSON.parse(storedUser));
+    }
+  },[]);
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    router("/");
+  }
 
   //encode the url of current window
-  const shareUrl = encodeURIComponent(window.location.origin);
+  // const shareUrl = encodeURIComponent(window.location.origin);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.origin)
@@ -31,11 +46,18 @@ export default function LandingPage() {
         <div className='navList'>
           <a href='/about' className='nav-link'>About us</a>
           <a href='/contact' className='nav-link'>Contact us</a>
-          {/* <a href='/guest' className='nav-link'>Join as Guest</a> */}
-          <a href='/auth' className='nav-link'>Register</a>
-          <a href='/auth'>
-            <button>Login</button>
-          </a>
+          <a href='/guest' className='nav-link'>Join as Guest</a>
+          {!user ? (
+            <>
+              <a href='/auth' className='nav-link'>Register</a>
+              <a href='/auth'>
+                <button>Login</button>
+              </a>
+            </>
+          ):(
+            <a onClick={handleLogout} className='nav-link'>Logout</a>
+          )}
+          
         </div>
       </nav>
 

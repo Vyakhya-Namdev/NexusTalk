@@ -7,12 +7,7 @@
 .about-container .hero-section {
     position: relative;
     overflow: hidden;
-    padding: 80px 20px 24px;
-}
-
-.about-container .hero-overlay {
-    position: absolute;
-    background: linear-gradient(90deg, rgba(255, 119, 0, 0.1) 0%, rgba(59, 74, 160, 0.1) 100%);
+    padding: 65px 20px 14px;
 }
 
 .about-container .hero-content {
@@ -58,7 +53,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
     line-height: 1.1;
 }
 
@@ -272,8 +267,9 @@
 }
 
 .about-container .ceo-bio:hover {
-    border-color: #f97316;
-    transform: scale(1.1);
+    box-shadow: 0 8px 20px 6px rgba(40, 26, 132, 0.35);
+    /* transform: scale(1.1); */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .about-container .member-name {

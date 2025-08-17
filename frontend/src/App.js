@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
+import { Routes, BrowserRouter as Router, Route, Navigate } from "react-router-dom";
 import LandingPage from './pages/landingPage';
 import Authentication from './pages/authentication';
 import { AuthProvider } from './contexts/AuthContext.js';
@@ -9,11 +9,14 @@ import History from './pages/history.jsx';
 import About from './pages/about.jsx';
 
 function App() {
+  const token = localStorage.getItem("token");
+
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path='/' element={<LandingPage />} />
+          {/* if user is already logged in then directly open home page */}
+          <Route path='/' element={token ? <Navigate to="/home" /> : <LandingPage />} />
           <Route path='/auth' element={<Authentication />} />
           <Route path='/home' element={<HomeComponent />} />
           <Route path='/history' element={<History />} />
