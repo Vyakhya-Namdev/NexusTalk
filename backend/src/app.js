@@ -10,6 +10,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const app = express();
+//creating websocket for server
+const server = createServer(app);
+const io = connectToSocket(server);
+
 const uri = process.env.MONGO_URL;  //fetch the DB url from '.env' file
 app.set("port", (process.env.PORT || 8000));
 app.use(cors());
@@ -20,9 +24,6 @@ app.use(express.urlencoded({ limit: "40kb", extended: true }));
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename)
 
-//creating websocket for server
-const server = createServer(app);
-const io = connectToSocket(server);
 // app.use(express.static(path.join(__dirname, "../public")));
 
 // app.get("/home", (req, res) => {
