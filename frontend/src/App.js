@@ -6,6 +6,7 @@ import { AuthProvider } from './contexts/AuthContext.js';
 import VideoMeetComponent from './pages/videoMeet.jsx';
 import HomeComponent from './pages/home.jsx';
 import History from './pages/history.jsx';
+import About from './pages/about.jsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/auth' element={<Authentication />} />
           <Route path='/home' element={<HomeComponent />} />
           <Route path='/history' element={<History />} />
+          <Route path='/about' element={<About />} />
           {/* This below route will move to videoMeet page if any of the url is entered */}
           <Route path='/:url' element={<VideoMeetComponent />} />
         </Routes>
