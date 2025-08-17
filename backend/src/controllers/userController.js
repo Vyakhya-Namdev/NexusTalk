@@ -56,7 +56,7 @@ const register = async(req, res) => {
     }
 }
 
-//history control
+//history control by initialising meeting and users
 const getUserHistory = async(req, res) => {
     const {token} = req.query;
 
