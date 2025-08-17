@@ -1,5 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import ShareIcon from '@mui/icons-material/Share';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 
 export default function LandingPage() {
 
@@ -11,7 +16,9 @@ export default function LandingPage() {
           <h2><span>Smile</span>Meet</h2>
         </div>
         <div className='navList'>
-          <a href='/guest' className='nav-link'>Join as Guest</a>
+          <a href='/about' className='nav-link'>About us</a>
+          <a href='/contact' className='nav-link'>Contact us</a>
+          {/* <a href='/guest' className='nav-link'>Join as Guest</a> */}
           <a href='/auth' className='nav-link'>Register</a>
           <a href='/auth'>
             <button>Login</button>
@@ -26,6 +33,23 @@ export default function LandingPage() {
           <a href='/auth'>
             <button>Get Started</button>
           </a>
+
+          <div className='links'>
+            <IconButton className='circular-icon' onClick={() => {
+              router("/guest");
+            }}>
+              <VideocamIcon />
+            </IconButton>
+            <IconButton className='circular-icon'>
+              <ShareIcon />
+            </IconButton >
+            <IconButton className='circular-icon'>
+              <ScheduleIcon />
+            </IconButton>
+            <IconButton className='circular-icon'>
+              <AccountCircleIcon />
+            </IconButton>
+          </div>
         </div>
 
         <div className="scrollColumns">

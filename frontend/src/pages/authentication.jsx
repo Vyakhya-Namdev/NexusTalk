@@ -44,7 +44,7 @@ export default function Authentication() {
         <ThemeProvider theme={defaultTheme}>
             {/* <Background /> */}
             <Grid container component="main" sx={{ height: '100vh', width: '100%', margin: 0, padding: 0, overflow: 'hidden',display:'flex'}}>
-                <CssBaseline />
+                
                 <Grid item xs={12} sm={6} md={10} sx={{height: "100vh", width:"100%",position:"absolute"}}>
                     <Background />
                 </Grid>
@@ -61,7 +61,12 @@ export default function Authentication() {
                     sx={{ px: 4, display: 'flex', width: "55%", alignItems: 'center', justifyContent: 'center' }}
                 >
                     <Box sx={{ width: '100%', mt: formState === 1 ? 0 : 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <Avatar sx={{ m: 1, bgcolor: '#3b4aad', transition: 'all 0.3s ease', '&:hover' : {
+                            transform: 'scale(1.1)',
+                            boxShadow: '0 12px 40px rgba(79, 92, 181, 0.72)',
+                            bgcolor: '#$4a5bc4'
+
+                        } }}>
                             <LockOutlinedIcon />
 
                         </Avatar>
