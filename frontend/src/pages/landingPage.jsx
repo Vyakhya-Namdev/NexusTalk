@@ -1,14 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
+
+  const router = useNavigate();
   return (
     <div className='landingPageContainer'>
       <nav>
         <div className='navHeader'>
-          <h2><span>Nexus</span>Talk</h2>
+          <h2><span>Smile</span>Meet</h2>
         </div>
         <div className='navList'>
-          <a href='/aljk23' className='nav-link'>Join as Guest</a>
+          <a href='/guest' className='nav-link'>Join as Guest</a>
           <a href='/auth' className='nav-link'>Register</a>
           <a href='/auth'>
             <button>Login</button>

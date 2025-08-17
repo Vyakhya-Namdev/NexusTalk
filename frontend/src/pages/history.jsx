@@ -26,13 +26,13 @@ export default function History() {
         fetchHistory();
     }, []);
 
-    let formDate = (dateString) => {
+    let formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, "0");
         const month = (date.getMonth() + 1).toString().padStart(2, "0");
         const year = date.getFullYear();
 
-        return `${month}/${date}/${year}`
+        return `${day}/${month}/${year}`
     }
 
     return (
@@ -42,7 +42,6 @@ export default function History() {
             </IconButton>
 
             {meetings.length > 0 ? (meetings.map((e, idx) => {
-                <h3>Jello</h3>
                 return (
                     <>
                         <Card key={idx} variant="outlined">
@@ -51,14 +50,14 @@ export default function History() {
                                     Code: {e.meetingCode}
                                 </Typography>
                                 <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
-                                    Data: {e.date}
+                                    Data: {formatDate(e.date)}
                                 </Typography>
                                 
                             </CardContent>
                         </Card>
                     </>
                 )
-            })) : <h1>Not an array</h1>}
+            })) : <h1>You have not done any meet yet!</h1>}
         </div>
     )
 }
