@@ -113,9 +113,9 @@ rgba(255,255,255,0.6) → White color with 60% opacity. */
 .links {
   margin-top: 2rem;
   display: flex;
-  justify-content: center; /* Center under Get Started */
-  align-items: center;
-  gap: 1.5rem;
+  justify-content: left; 
+  align-items: left;
+  gap: 1.75rem;
 }
 
 .circular-icon {

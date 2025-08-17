@@ -9,6 +9,16 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 export default function LandingPage() {
 
   const router = useNavigate();
+
+  const handleShare = () => {
+    if(navigator.share){
+      navigator.share({
+        title: "SmileMeet - a Video Call",
+        text: "Join me for a video call here",
+        url: window.location.origin,
+      });
+    }
+  }
   return (
     <div className='landingPageContainer'>
       <nav>
@@ -40,7 +50,7 @@ export default function LandingPage() {
             }}>
               <VideocamIcon />
             </IconButton>
-            <IconButton className='circular-icon'>
+            <IconButton className='circular-icon' onClick={handleShare}>
               <ShareIcon />
             </IconButton >
             <IconButton className='circular-icon'>
