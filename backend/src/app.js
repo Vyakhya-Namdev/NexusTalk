@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { connectToSocket } from './controllers/socketManager.js';
 import userRoutes from "./routes/user.js";
+import meetingRoutes from "./routes/meeting.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ limit: "40kb", extended: true }));
 // })
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/meetings", meetingRoutes);
 server.listen(app.get("port"), () => {
     mongoose.connect(uri)       //connect with DB
         .then(() => console.log("MongoDB connected successfully"))

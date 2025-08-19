@@ -8,34 +8,6 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 
 export default function LandingPage() {
   const router = useNavigate();
-  const [isShareOpen, setIsShareOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(()=>{
-    const storedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if(token && storedUser){
-      setUser(JSON.parse(storedUser));
-    }
-  },[]);
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("token");
-    router("/");
-  }
-
-  //encode the url of current window
-  // const shareUrl = encodeURIComponent(window.location.origin);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.origin)
-      .then(() => {
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
-      })
-  }
 
   return (
     <div className='landingPageContainer'>
@@ -47,17 +19,10 @@ export default function LandingPage() {
           <a href='/about' className='nav-link'>About us</a>
           <a href='/contact' className='nav-link'>Contact us</a>
           <a href='/guest' className='nav-link'>Join as Guest</a>
-          {!user ? (
-            <>
-              <a href='/auth' className='nav-link'>Register</a>
-              <a href='/auth'>
-                <button>Login</button>
-              </a>
-            </>
-          ):(
-            <a onClick={handleLogout} className='nav-link'>Logout</a>
-          )}
-          
+          <a href='/auth' className='nav-link'>Register</a>
+          <a href='/auth'>
+            <button>Login</button>
+          </a>
         </div>
       </nav>
 
@@ -70,13 +35,13 @@ export default function LandingPage() {
           </a>
 
           <div className='links'>
-            <IconButton className='circular-icon' onClick={() => router("/guest")}>
+            <IconButton className='circular-icon' onClick={() => router("/auth")}>
               <VideocamIcon />
             </IconButton>
-            <IconButton className='circular-icon' onClick={() => setIsShareOpen(true)}>
+            <IconButton className='circular-icon' onClick={() => router("/auth")}>
               <ShareIcon />
             </IconButton >
-            <IconButton className='circular-icon'>
+            <IconButton className='circular-icon' onClick={() => router("/auth")}>
               <ScheduleIcon />
             </IconButton>
             <IconButton className='circular-icon'>
@@ -109,110 +74,6 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-
-      {/* Share Modal */}
-      {isShareOpen && (
-        <div className="share-modal-backdrop" onClick={() => setIsShareOpen(false)}>
-          <div className="share-modal" onClick={e => e.stopPropagation()}>
-            <h3 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Share SmileMeet</h3>
-
-            <p style={{ marginBottom: '1rem', color: '#444' }}>
-              Invite others to connect with you on <strong>SmileMeet</strong>.<br />
-              Fast, secure & joyful video calling for friends, family, and teams.
-            </p>
-
-            {/* Big site link with Copy button */}
-            <div
-              style={{
-                margin: '1rem auto',
-                background: '#f4f6fa',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                padding: '10px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                maxWidth: '360px'
-              }}
-            >
-              <span style={{ fontSize: '1.05rem', color: '#222', wordBreak: 'break-all' }}>
-                {window.location.origin}
-              </span>
-              <button
-                onClick={handleCopy}
-                style={{
-                  marginLeft: '8px',
-                  background: '#FF7700',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '6px',
-                  padding: '6px 14px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  fontSize: '0.95rem'
-                }}
-              >
-                {isCopied ? (
-                  <>
-                    <span>Copied</span>
-                    <span style={{ fontWeight: 'bold', fontSize: '1.3em' }}>✓</span>
-                  </>
-                ) : (
-                  <>Copy link</>
-                )}
-              </button>
-            </div>
-
-            {/* Social Share buttons */}
-            <div className="share-icons" style={{ margin: '1rem auto 0', justifyContent: 'center' }}>
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(window.location.origin)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="WhatsApp"
-              >
-                <img src="/images/whatsapp.png" alt="WhatsApp" />
-              </a>
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Facebook"
-              >
-                <img src="/images/facebook.png" alt="Facebook" />
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn"
-              >
-                <img src="/images/linkdin.png" alt="LinkedIn" />
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="X"
-              >
-                <img src="/images/x.png" alt="X" />
-              </a>
-              <a
-                href={`https://www.instagram.com/`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Share on Instagram"
-              >
-                <img src="/images/instagram.png" alt="Instagram" />
-              </a>
-
-            </div>
-
-            <button className="close-button" style={{ marginTop: '1.5rem' }} onClick={() => setIsShareOpen(false)}>Close</button>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }
