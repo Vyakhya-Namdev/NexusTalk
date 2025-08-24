@@ -1,0 +1,89 @@
+/* Schedule Meeting Form Styles */
+.schedule-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+.schedule-card {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+  max-width: 410px;
+  width: 100%;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.4rem;
+}
+
+.card-header h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+  color: #222;
+}
+
+.schedule-form label {
+  display: block;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  color: #222;
+}
+
+.schedule-form input,
+.schedule-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1.5px solid #e3e3e3;
+  border-radius: 8px;
+  font-size: 1em;
+  background: #f6f8fa;
+  resize: none;
+  transition: border .2s;
+}
+
+.schedule-form input:focus,
+.schedule-form textarea:focus {
+  border-color: #ff7f1a;
+  outline: none;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 0.7em 0;
+  background: #ff7f1a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+  margin-bottom: 2px;
+  box-shadow: 0 2px 8px rgba(255,127,26,0.14);
+  transition: background 0.18s;
+}
+
+.primary-btn:hover {
+  background: #e3690c;
+}
+
+.form-message {
+  color: #ff7f1a;
+  margin-top: 1em;
+  font-weight: 600;
+  text-align: center;
+}
+
+.highlight {
+  color: #ff7f1a;
+  margin-left: 3px;
+  font-weight: bold;
+}

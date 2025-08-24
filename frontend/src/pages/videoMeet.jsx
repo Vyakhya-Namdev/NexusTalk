@@ -12,51 +12,47 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
 import { useNavigate } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
 
 const server_url = "http://localhost:8000";
 
 var connections = {};
 
 const peerConfigreConnections = {
-  //ice-servers => This tells WebRTC how to discover the best network route between two peers (e.g., two browsers or apps) — even if they’re behind NATs or firewalls.
-  //iceServers is an array of servers used by the ICE (Interactive Connectivity Establishment) protocol.
   "iceServers": [
-    { "urls": "stun:stun.l.google.com:19302" }   //this stun server can be changed
-    //Stun job is to help a peer discover its public IP address and port when behind NAT.
+    { "urls": "stun:stun.l.google.com:19302" }
   ]
 }
+
 export default function VideoMeetComponent() {
   var socketRef = useRef();
-  let socketIdRef = useRef();    //to store our own socket Id that we recived after login
+  let socketIdRef = useRef();
 
-  let localVideoRef = useRef();   //to see our own video and for seeing other people video we'll define an array
+  let localVideoRef = useRef();
 
-  let [videoAvailable, setVideoAvailable] = useState(true);   //to see if video is available (has video access)
+  let [videoAvailable, setVideoAvailable] = useState(true);
+  let [audioAvailable, setAudioAvailable] = useState(true);
 
-  let [audioAvailable, setAudioAvailable] = useState(true);  //to see if audio is available (has audio access)
+  let [video, setVideo] = useState([]);
+  let [audio, setAudio] = useState();
+  let [screen, setScreen] = useState();
 
-  let [video, setVideo] = useState([]);   //to on-off our video will handle by it
-  let [audio, setAudio] = useState();   ///to on-off our audio will handle by it
-  let [screen, setScreen] = useState();  // to share our screen
+  let [showModal, setModal] = useState(false);
+  let [screenAvailable, setScreenAvailable] = useState();
 
-  let [showModal, setModal] = useState(false);  //for pop-up at bottom
-  let [screenAvailable, setScreenAvailable] = useState();  //to see if our screen is available or not
-
-  let [messages, setMessages] = useState([]);  //will handle state of all communication messages
-  let [message, setMessage] = useState("");;   //message written by us
-  let [newMessages, setNewMessages] = useState(3);  //to set the number of new messages came (on chatbox icon)
-  let [askForUsername, setAskForUsername] = useState(true);  //to allow guests for login
-  let [username, setUsername] = useState("");   //to store the username of person throught which he/she logged in
+  let [messages, setMessages] = useState([]);
+  let [message, setMessage] = useState("");
+  let [newMessages, setNewMessages] = useState(3);
+  let [askForUsername, setAskForUsername] = useState(true);
+  let [username, setUsername] = useState("");
+  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
 
   const videoRef = useRef([]);
   let [videos, setVideos] = useState([]);
-
-  // if(isChrome() === false){
-
-  // }
+  const [isLobbyVideoEnabled, setIsLobbyVideoEnabled] = useState(true);
+  const [isLobbyAudioEnabled, setIsLobbyAudioEnabled] = useState(true);
 
   useEffect(() => {
-    console.log("HELLO");
     getPermissions()
   }, []);
 
@@ -71,56 +67,48 @@ export default function VideoMeetComponent() {
     }
   }
 
-
-  //setting Permissions for screen-sharing, audio and video
   const getPermissions = async () => {
     try {
       const videoPermission = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoPermission) {
-        console.log("Video started");
         setVideoAvailable(true);
+        setIsVideoEnabled(true);
       } else {
-        console.log("Video denied");
         setVideoAvailable(false);
+        setIsVideoEnabled(false);
       }
 
       const audioPermission = await navigator.mediaDevices.getUserMedia({ audio: true });
       if (audioPermission) {
-        console.log("audio started");
         setAudioAvailable(true);
       } else {
-        console.log("audio denied");
         setAudioAvailable(false);
       }
 
-      //screen-sharing
       if (navigator.mediaDevices.getDisplayMedia) {
         setScreenAvailable(true);
       } else {
         setScreenAvailable(false);
       }
 
-      //set audio or video to visible om screen
       if (videoAvailable || audioAvailable) {
         const userMediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioAvailable, video: videoAvailable });
-        if (userMediaStream) {   //set the audio or video to locals
+        if (userMediaStream) {
           window.localStream = userMediaStream;
           if (localVideoRef.current) {
-            localVideoRef.current.srcObject = userMediaStream;   //set the audio or video to src object so that it can be visible on screen
+            localVideoRef.current.srcObject = userMediaStream;
           }
         }
       }
-
     } catch (err) {
       console.log("Error generated: " + err);
+      setIsVideoEnabled(false);
     }
   }
 
-
   useEffect(() => {
-    //if audio & video is not on (or defined) then, it should not be visible to other clients
     if (video !== undefined && audio !== undefined) {
-      getUserMedia();   //set the function to make chnges if audio or video is off
+      getUserMedia();
       console.log("SET STATE HAS ", video, audio);
     }
   }, [video, audio]);
@@ -129,7 +117,6 @@ export default function VideoMeetComponent() {
     setVideo(videoAvailable);
     setAudio(audioAvailable);
     connectToSocketServer();
-
   }
 
   let getUserMediaSuccess = (stream) => {
@@ -163,7 +150,6 @@ export default function VideoMeetComponent() {
         tracks.forEach(track => track.stop())
       } catch (e) { console.log(e) }
 
-      //Blacksilence => will show black screen if camera or audio is off of a user
       let blackSilence = (...args) => new MediaStream([black(...args), silence()])
       window.localStream = blackSilence()
       localVideoRef.current.srcObject = window.localStream
@@ -185,12 +171,11 @@ export default function VideoMeetComponent() {
   let getUserMedia = (() => {
     if ((video && videoAvailable) || (audio && audioAvailable)) {
       navigator.mediaDevices.getUserMedia({ video: video, audio: audio })
-        .then(getUserMediaSuccess)  //this function will trun off my audio or video if I turned off from my side then, from all clients side  
+        .then(getUserMediaSuccess)
         .then((stream) => { })
         .catch(err => console.log(err));
     } else {
       try {
-        //stop all the tracks where audio or video is not available
         let tracks = localVideoRef.current.srcObject.getTracks();
         tracks.forEach(track => {
           track.stop();
@@ -200,7 +185,6 @@ export default function VideoMeetComponent() {
       }
     }
   })
-
 
   let getDisplayMediaSuccess = (stream) => {
     console.log("HERE")
@@ -238,7 +222,6 @@ export default function VideoMeetComponent() {
       localVideoRef.current.srcObject = window.localStream
 
       getUserMedia()
-
     })
   }
 
@@ -277,11 +260,10 @@ export default function VideoMeetComponent() {
   let connectToSocketServer = () => {
     socketRef.current = io.connect(server_url, { secure: false });
     socketRef.current.on('signal', gotMessageFromServer);
-    //catch the emit here which has been thrown in the backend for if any client has joined the call
     socketRef.current.on('connect', () => {
       socketRef.current.emit('join-call', window.location.href);
 
-      socketIdRef.current = socketRef.current.id;    //store the id that we get after connected to call
+      socketIdRef.current = socketRef.current.id;
 
       socketRef.current.on("chat message", addMessage);
 
@@ -293,18 +275,15 @@ export default function VideoMeetComponent() {
         clients.forEach((socketListId) => {
           connections[socketListId] = new RTCPeerConnection(peerConfigreConnections);
 
-          //making signal connection with ice (intereactivity connection establishment)
           connections[socketListId].onicecandidate = function (event) {
             if (event.candidate !== null) {
               socketRef.current.emit("signal", socketListId, JSON.stringify({ 'ice': event.candidate }));
             }
           }
 
-          //setting streams connection, (if want to on multiple things eg, audio, video, screen-sharing at a time. So, to preserve everything while any new thing is openeing)
           connections[socketListId].onaddstream = (event) => {
             let videoExists = videoRef.current.find(video => video.socketId === socketListId);
             if (videoExists) {
-              // Update the stream of the existing video
               setVideos(videos => {
                 const updatedVideos = videos.map(video =>
                   video.socketId === socketListId ? { ...video, stream: event.stream } : video
@@ -313,7 +292,6 @@ export default function VideoMeetComponent() {
                 return updatedVideos;
               });
             } else {
-              //if video already not exists and it is new
               console.log("CREATING NEW");
               let newVideo = {
                 socketId: socketListId,
@@ -330,12 +308,9 @@ export default function VideoMeetComponent() {
             }
           }
 
-          // Add the local video stream
           if (window.localStream !== undefined && window.localStream !== null) {
             connections[socketListId].addStream(window.localStream);
           } else {
-            //TODO: Blacksilence (if video has been closed)
-
             let blackSilence = (...args) => new MediaStream([black(...args), silence()]);
             window.localStream = blackSilence();
             connections[socketListId].addStream(window.localStream);
@@ -350,12 +325,10 @@ export default function VideoMeetComponent() {
               connections[id2].addStream(window.localStream);
             } catch (err) { }
 
-            //create offer if its not your id
             connections[id2].createOffer().then((description) => {
               connections[id2].setLocalDescription(description)
                 .then(() => {
                   socketRef.current.emit('signal', id2, JSON.stringify({ 'sdp': connections[id2].localDescription }));
-                  //sdp => session decription
                 })
                 .catch(e => console.log(e))
             })
@@ -383,7 +356,6 @@ export default function VideoMeetComponent() {
 
   let routeTo = useNavigate();
 
-  //login as a guest if 'setAskForUsername' is false
   let connect = () => {
     setAskForUsername(false);
     getMedia();
@@ -395,6 +367,25 @@ export default function VideoMeetComponent() {
 
   let handleAudio = () => {
     setAudio(!audio);
+  }
+
+  let handleLobbyVideo = () => {
+  setIsLobbyVideoEnabled(!isLobbyVideoEnabled);
+  if (localVideoRef.current && localVideoRef.current.srcObject) {
+    // Get all video tracks from the stream
+    const videoTracks = localVideoRef.current.srcObject.getVideoTracks();
+    videoTracks.forEach(track => {
+      // Toggle the 'enabled' property of each track
+      track.enabled = !isLobbyVideoEnabled;
+    });
+  }
+}
+
+  let handleLobbyAudio = () => {
+    setIsLobbyAudioEnabled(!isLobbyAudioEnabled);
+    if (localVideoRef.current && localVideoRef.current.srcObject) {
+      localVideoRef.current.srcObject.getAudioTracks()[0].enabled = !isLobbyAudioEnabled;
+    }
   }
 
   useEffect(() => {
@@ -412,47 +403,58 @@ export default function VideoMeetComponent() {
   }
 
   let sendMessage = () => {
-    console.log(socketRef.current);
     socketRef.current.emit('chat message', message, username)
     setMessage("");
   }
 
   let handleEndCall = () => {
-    try{
+    try {
       let tracks = localVideoRef.current.srcObject.getTracks();
       tracks.forEach(track => track.stop());
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
-
-    //Go to home after closing all stracks
     routeTo("/home");
   }
+
   return (
-    // {window.location.href} => prints the current router path of window
-    <div>
+    <div className={styles.mainWrapper}>
       {askForUsername === true ?
-        <div>
-          <h2>Enter into Lobby</h2>
-          <TextField id="outlined-basic" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} variant="outlined" />
-          <Button variant="contained" onClick={connect}>Connect</Button>
-
-          <div>
-            <video ref={localVideoRef} autoPlay muted></video>
+        <div className={styles.lobbyFormContainer}>
+          <div className={styles.videoStreamContainer}>
+            {isLobbyVideoEnabled ? (
+              <video ref={localVideoRef} autoPlay muted className={styles.videoPlayer} />
+            ) : (
+              <div className={styles.videoPlaceholder}>
+                <PersonIcon className={styles.avatar} />
+                <p>Camera is off</p>
+              </div>
+            )}
           </div>
-        </div> :
+          <h2 className={styles.lobbyHeading}>Connect Space</h2>
+          <p style={{
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            fontSize: { xs: '0.95rem', md: '1rem' },
+                            mb: 3,
+                            lineHeight: 1.5}}>Step in! Connect! Collaborate!</p>
+          <div className={styles.lobbyControls}>
+            <IconButton onClick={handleLobbyVideo}>
+              {isLobbyVideoEnabled ? <VideocamIcon /> : <VideocamOffIcon />}
+            </IconButton>
+            <IconButton onClick={handleLobbyAudio}>
+              {isLobbyAudioEnabled ? <MicIcon /> : <MicOffIcon />}
+            </IconButton>
+          </div>
+          <TextField id="outlined-basic" label="Username" value={username} className={styles.usernameLebel} onChange={(e) => setUsername(e.target.value)} variant="outlined" />
+          <Button variant="contained" onClick={connect} className={styles.connectButton}>Connect</Button>
+        </div>
+        :
         <div className={styles.meetVideoContainer}>
-
           {showModal === true ? <div className={styles.chatRoom}>
             <div className={styles.chatContainer}>
               <h1 style={{ color: "black" }} >Chat</h1>
-
-              {/* how chat will display in the chat section entered by users */}
               <div className={styles.chattingDisplay}>
-
                 {messages.length > 0 ? messages.map((item, index) => {
-
-                  console.log(messages)
                   return (
                     <div style={{ marginBottom: "20px" }} key={index}>
                       <p style={{ fontWeight: "bold" }}>{item.sender}</p>
@@ -460,19 +462,14 @@ export default function VideoMeetComponent() {
                     </div>
                   )
                 }) : <p>No Messages Yet</p>}
-
-
               </div>
-
               <div className={styles.chattingArea}>
-
                 <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Enter Chat" variant="outlined" />
                 <Button variant="contained" onClick={sendMessage}>SEND</Button>
               </div>
             </div>
           </div> : <></>}
 
-          {/* setting all button that needed for call */}
           <div className={styles.btnContainer}>
             <IconButton onClick={handleVideo}>
               {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
@@ -488,7 +485,6 @@ export default function VideoMeetComponent() {
                 {(screen === true) ? <ScreenShareIcon /> : <StopScreenShareIcon />}
               </IconButton> : <></>}
 
-            {/*Creating badge chat icon */}
             <Badge badgeContent={newMessages} max={99} color='secondary'>
               <IconButton onClick={handleChat}>
                 <ChatIcon />
@@ -496,13 +492,11 @@ export default function VideoMeetComponent() {
             </Badge>
           </div>
 
-          {/* your video that'll be visible to you */}
           <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
 
           <div className={styles.conferenceView}>
             {videos.map((video) => (
               <div key={video.socketId}>
-                {/* <h2>{video.socketId}</h2> */}
                 <video data-socket={video.socketId}
                   ref={ref => {
                     if (ref && video.stream) {

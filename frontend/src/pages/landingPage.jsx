@@ -10,7 +10,12 @@ export default function LandingPage() {
   const router = useNavigate();
 
   return (
-    <div className='landingPageContainer'>
+    <div className='landingPageContainer' 
+  style={{backgroundImage:  "url('images/background.jpg')",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center"
+    }}>
       <nav>
         <div className='navHeader'>
           <h2><span>Smile</span>Meet</h2>

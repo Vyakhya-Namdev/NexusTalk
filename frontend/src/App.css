@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.landingPageContainer{  
+  color: white;
+}
+
 .landingPageContainer nav {
   display: flex;
   height: 70px;
@@ -11,9 +15,9 @@
   padding: 1rem 1rem;
   margin: auto;
   justify-content: space-between;
-  border-bottom: 2px solid #ccc;
-  box-shadow: 0 3px 3px -2px rgba(0,0,0,0.2), 
-              inset 0 -1px 0 rgba(255,255,255,0.6);
+  /* border-bottom: 2px solid #ccc; */
+  /* box-shadow: 0 3px 3px -2px rgba(0,0,0,0.2), 
+              inset 0 -1px 0 rgba(255,255,255,0.6); */
 }
 
 /* BOX-SHADOW
@@ -47,7 +51,7 @@ rgba(255,255,255,0.6) → White color with 60% opacity. */
 .nav-link {
   margin-right: 20px;
   text-decoration: none;
-  color: black;
+  color: white;
   position: relative;
   cursor: pointer;
 }
@@ -59,7 +63,7 @@ rgba(255,255,255,0.6) → White color with 60% opacity. */
   bottom: 0;
   width: 100%;
   height: 2px;
-  background-color: #3b4aad;
+  background-color: white;
   transform: scale(0);
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
@@ -71,7 +75,7 @@ rgba(255,255,255,0.6) → White color with 60% opacity. */
 }
 
 .navList a:hover {
-  color: #3b4aad;
+  color: white;
 }
 
 .navList button {
@@ -134,10 +138,10 @@ rgba(255,255,255,0.6) → White color with 60% opacity. */
 }
 
 .circular-icon:hover {
-  background-color: #606fcf !important;
+  background-color: #7e8be0 !important;
   color: #fff !important;
   transform: scale(1.12);
-  border-color: #606fcf !important;
+  border-color: #7e8be0 !important;
   box-shadow: 0 4px 16px rgba(255, 119, 0, 0.25);
 }
 
@@ -211,253 +215,3 @@ rgba(255,255,255,0.6) → White color with 60% opacity. */
   }
 }
 
-.navBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-inline: 20px;
-  text-align: center;
-}
-
-.meetContainer {
-  display: flex;
-  padding-inline: 20px;
-  height: 90vh;
-  gap: 10vw;
-  justify-content: center;
-}
-
-.leftPanel {
-  display: flex;
-  align-items: center;
-}
-
-.rightPanel {
-  display: flex;
-  align-items: center;
-}
-
-.rightPanel > img {
-  width: 30vw;
-  height: auto;
-  border-radius: 20px;
-}
-
-/* Share Modal Styles */
-.share-modal-container {
-  position: relative;
-  display: inline-block;
-}
-
-.share-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  z-index: 999;
-}
-
-.share-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 20px;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  width: 400px;
-  z-index: 1000;
-  text-align: center;
-}
-
-.share-modal h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.share-modal p {
-  margin: 0 0 16px 0;
-  color: #666;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-.share-url-container {
-  margin: 16px 0;
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.share-url-text {
-  flex: 1;
-  font-size: 0.9rem;
-  color: #333;
-  word-break: break-all;
-  text-align: left;
-}
-
-.copy-button {
-  background: #FF7700;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  transition: background-color 0.2s;
-}
-
-.copy-button:hover:not(:disabled) {
-  background: #e66600;
-}
-
-.copy-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.share-icons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 20px 0;
-}
-
-.share-icons a {
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.share-icons a:hover {
-  transform: scale(1.1);
-}
-
-.share-icons img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.close-button {
-  background: #FF7700;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 30px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.close-button:hover {
-  background: #e66600;
-}
-
-/* Schedule Meeting Form Styles */
-.schedule-container {
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fafafa;
-}
-
-.schedule-card {
-  background: #fff;
-  padding: 2.5rem 2rem;
-  border-radius: 16px;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
-  max-width: 410px;
-  width: 100%;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.4rem;
-}
-
-.card-header h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin: 0;
-  color: #222;
-}
-
-.schedule-form label {
-  display: block;
-  margin-bottom: 1.2rem;
-  font-size: 1rem;
-  color: #222;
-}
-
-.schedule-form input,
-.schedule-form textarea {
-  width: 100%;
-  padding: 0.6rem;
-  margin-top: 0.3rem;
-  border: 1.5px solid #e3e3e3;
-  border-radius: 8px;
-  font-size: 1em;
-  background: #f6f8fa;
-  resize: none;
-  transition: border .2s;
-}
-
-.schedule-form input:focus,
-.schedule-form textarea:focus {
-  border-color: #ff7f1a;
-  outline: none;
-}
-
-.primary-btn {
-  width: 100%;
-  padding: 0.7em 0;
-  background: #ff7f1a;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 14px;
-  margin-bottom: 2px;
-  box-shadow: 0 2px 8px rgba(255,127,26,0.14);
-  transition: background 0.18s;
-}
-
-.primary-btn:hover {
-  background: #e3690c;
-}
-
-.form-message {
-  color: #ff7f1a;
-  margin-top: 1em;
-  font-weight: 600;
-  text-align: center;
-}
-
-.highlight {
-  color: #ff7f1a;
-  margin-left: 3px;
-  font-weight: bold;
-}
