@@ -172,7 +172,6 @@ export default function VideoMeetComponent() {
     if ((video && videoAvailable) || (audio && audioAvailable)) {
       navigator.mediaDevices.getUserMedia({ video: video, audio: audio })
         .then(getUserMediaSuccess)
-        .then((stream) => { })
         .catch(err => console.log(err));
     } else {
       try {
@@ -235,14 +234,14 @@ export default function VideoMeetComponent() {
             connections[fromId].createAnswer().then((description) => {
               connections[fromId].setLocalDescription(description).then(() => {
                 socketRef.current.emit('signal', fromId, JSON.stringify({ 'sdp': connections[fromId].localDescription }))
-              }).catch(e => console.log(e))
-            }).catch(e => console.log(e))
+              }).catch(e => console.log(e));
+            }).catch(e => console.log(e));
           }
-        }).catch(e => console.log(e))
+        }).catch(e => console.log(e));
       }
 
       if (signal.ice) {
-        connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice)).catch(e => console.log(e))
+        connections[fromId].addIceCandidate(new RTCIceCandidate(signal.ice)).catch(e => console.log(e));
       }
     }
   }
@@ -370,16 +369,14 @@ export default function VideoMeetComponent() {
   }
 
   let handleLobbyVideo = () => {
-  setIsLobbyVideoEnabled(!isLobbyVideoEnabled);
-  if (localVideoRef.current && localVideoRef.current.srcObject) {
-    // Get all video tracks from the stream
-    const videoTracks = localVideoRef.current.srcObject.getVideoTracks();
-    videoTracks.forEach(track => {
-      // Toggle the 'enabled' property of each track
-      track.enabled = !isLobbyVideoEnabled;
-    });
+    setIsLobbyVideoEnabled(!isLobbyVideoEnabled);
+    if (localVideoRef.current && localVideoRef.current.srcObject) {
+      const videoTracks = localVideoRef.current.srcObject.getVideoTracks();
+      videoTracks.forEach(track => {
+        track.enabled = !isLobbyVideoEnabled;
+      });
+    }
   }
-}
 
   let handleLobbyAudio = () => {
     setIsLobbyAudioEnabled(!isLobbyAudioEnabled);
@@ -433,10 +430,9 @@ export default function VideoMeetComponent() {
           </div>
           <h2 className={styles.lobbyHeading}>Connect Space</h2>
           <p style={{
-                            color: 'rgba(255, 255, 255, 0.7)',
-                            fontSize: { xs: '0.95rem', md: '1rem' },
-                            mb: 3,
-                            lineHeight: 1.5}}>Step in! Connect! Collaborate!</p>
+            color: 'rgba(255, 255, 255, 0.7)',
+            fontSize: '1rem'
+          }}>Step in! Connect! Collaborate!</p>
           <div className={styles.lobbyControls}>
             <IconButton onClick={handleLobbyVideo}>
               {isLobbyVideoEnabled ? <VideocamIcon /> : <VideocamOffIcon />}
@@ -445,54 +441,86 @@ export default function VideoMeetComponent() {
               {isLobbyAudioEnabled ? <MicIcon /> : <MicOffIcon />}
             </IconButton>
           </div>
-          <TextField id="outlined-basic" label="Username" value={username} className={styles.usernameLebel} onChange={(e) => setUsername(e.target.value)} variant="outlined" />
+          <TextField
+            id="outlined-basic"
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            variant="outlined"
+            InputLabelProps={{ className: styles.usernameLabel }}
+            InputProps={{ className: styles.usernameInput }}
+          />
           <Button variant="contained" onClick={connect} className={styles.connectButton}>Connect</Button>
         </div>
         :
         <div className={styles.meetVideoContainer}>
-          {showModal === true ? <div className={styles.chatRoom}>
+          {/*
+            This is the key change!
+            The chat room is always rendered now.
+            We use a dynamic className to add the 'show' class when showModal is true.
+          */}
+          <div className={`${styles.chatRoom} ${showModal ? styles.show : ''}`}>
             <div className={styles.chatContainer}>
-              <h1 style={{ color: "black" }} >Chat</h1>
+              <h1 className={styles.chatHeader}>Chat</h1>
               <div className={styles.chattingDisplay}>
-                {messages.length > 0 ? messages.map((item, index) => {
-                  return (
-                    <div style={{ marginBottom: "20px" }} key={index}>
-                      <p style={{ fontWeight: "bold" }}>{item.sender}</p>
-                      <p>{item.data}</p>
+                {messages.length > 0 ? (
+                  messages.map((item, index) => (
+                    <div className={styles.message} key={index}>
+                      <p className={styles.messageSender}>{item.sender}</p>
+                      <p className={styles.messageText}>{item.data}</p>
                     </div>
-                  )
-                }) : <p>No Messages Yet</p>}
+                  ))
+                ) : (
+                  <p className={styles.noMessages}>No Messages Yet</p>
+                )}
               </div>
               <div className={styles.chattingArea}>
-                <TextField value={message} onChange={(e) => setMessage(e.target.value)} id="outlined-basic" label="Enter Chat" variant="outlined" />
-                <Button variant="contained" onClick={sendMessage}>SEND</Button>
+                <TextField 
+                  value={message} 
+                  onChange={(e) => setMessage(e.target.value)} 
+                  id="outlined-basic" 
+                  label="Enter Chat" 
+                  variant="outlined" 
+                  fullWidth
+                  InputLabelProps={{ style: { color: '#7e8be0' } }}
+                  InputProps={{ style: { color: 'black' } }}
+                />
+                <Button variant="contained" onClick={sendMessage} style={{backgroundColor:"#7e8be0", padding: "12px 30px"}}>SEND</Button>
               </div>
             </div>
-          </div> : <></>}
+          </div>
 
+          {/* ... (rest of the meetVideoContainer and buttons) */}
           <div className={styles.btnContainer}>
-            <IconButton onClick={handleVideo}>
+            <IconButton onClick={handleVideo} style={{ color: "white" }}>
               {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
             </IconButton>
             <IconButton onClick={handleEndCall} style={{ color: "red" }}>
               <CallEndIcon />
             </IconButton>
-            <IconButton onClick={handleAudio}>
+            <IconButton onClick={handleAudio} style={{ color: "white" }}>
               {(audio === true) ? <MicIcon /> : <MicOffIcon />}
             </IconButton>
             {screenAvailable === true ?
-              <IconButton onClick={handleScreen}>
+              <IconButton onClick={handleScreen} style={{ color: "white" }}>
                 {(screen === true) ? <ScreenShareIcon /> : <StopScreenShareIcon />}
               </IconButton> : <></>}
 
             <Badge badgeContent={newMessages} max={99} color='secondary'>
-              <IconButton onClick={handleChat}>
+              <IconButton onClick={handleChat} style={{ color: "white" }}>
                 <ChatIcon />
               </IconButton>
             </Badge>
           </div>
 
-          <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
+          {video === true ? (
+            <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
+          ) : (
+            <div className={styles.videoPlaceholderInMeet}>
+              <PersonIcon className={styles.avatar} />
+              <p>Camera is off</p>
+            </div>
+          )}
 
           <div className={styles.conferenceView}>
             {videos.map((video) => (
@@ -507,7 +535,8 @@ export default function VideoMeetComponent() {
               </div>
             ))}
           </div>
-        </div>}
+        </div>
+      }
     </div>
   )
 }

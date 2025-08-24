@@ -80,7 +80,7 @@ function HomeComponent() {
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Button className='home-btn' onClick={() => {
-            navigate("/home")
+            navigate("/help")
           }}>Help</Button>
           <Button className="home-btn" onClick={() => {
             localStorage.removeItem("token");

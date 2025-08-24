@@ -1,4 +1,6 @@
+/* Container for the entire page, providing the background and centering */
 .mainWrapper {
+  color: white;
   position: relative;
   width: 100%;
   height: 100vh;
@@ -10,6 +12,7 @@
   animation: moveGradient 15s ease infinite;
 }
 
+/* Styles for the Lobby Form (the central card) */
 .lobbyFormContainer {
   display: flex;
   flex-direction: column;
@@ -29,17 +32,31 @@
 
 .lobbyFormContainer:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(255, 107, 0, 0.2), 0 8px 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 40px rgba(248, 106, 5, 0.2), 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
+/* Stylish heading for the lobby page */
 .lobbyHeading {
   color: #FF7700;
   font-weight: bold;
   font-size: 2.2rem;
-  margin-bottom: 5px;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
 }
 
+/* Container for the camera and mic icons in the lobby */
+.lobbyControls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Make the icons bigger and white */
+.lobbyControls svg {
+  font-size: 35px !important;
+  color: white !important;
+}
+
+/* Wrapper for the video stream or the avatar fallback */
 .videoStreamContainer {
   position: relative;
   width: 100%;
@@ -52,12 +69,14 @@
   border: 2px solid #FF7700;
 }
 
+/* Styles for the live video player */
 .videoPlayer {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* Styles for the fallback avatar screen (when camera is off) */
 .videoPlaceholder {
   display: flex;
   flex-direction: column;
@@ -75,35 +94,40 @@
   margin-bottom: 15px;
 }
 
+/* Styles for the "Camera is off" text */
 .videoPlaceholder p {
   font-size: 1.1rem;
   color: #ccc;
 }
 
+/* Styles for the Material-UI TextField component */
 .usernameInput {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  color: #f0f6fc;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 12px;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
 }
 
-.usernameInput:focus {
-  outline: none;
-  border-color: #FF7700;
+/* This targets the text color inside the input field */
+.usernameInput .MuiOutlinedInput-input {
+  color: white !important;
 }
 
+/* This targets the border of the input field when it's not focused */
+.usernameInput .MuiOutlinedInput-notchedOutline {
+  border-color: #FF7700 !important;
+}
+
+/* This targets the border of the input field when it is focused (active) */
+.usernameInput.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #FF7700 !important;
+}
+
+/* This targets the label color, making sure it stays orange */
 .usernameLabel {
-  color: #FF7700;
+  color: #FF7700 !important;
   font-size: 1rem;
-  margin-bottom: 8px;
-  display: block;
 }
 
+/* Styling for the Connect button */
 .connectButton {
   background-color: #FF7700 !important;
   color: white !important;
@@ -120,6 +144,7 @@
   transform: translateY(-2px);
 }
 
+/* Keyframes for background animation */
 @keyframes moveGradient {
   0% {
     background-position: 0% 50%;
@@ -134,6 +159,7 @@
   }
 }
 
+/* Keyframes for the lobby form fade-in */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -146,60 +172,193 @@
   }
 }
 
+
 .meetVideoContainer {
   position: relative;
   height: 100vh;
+  width: 100vw;
+  background-color: #0d121c; /* A darker background for the conference area */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .meetUserVideo {
   position: absolute;
-  bottom: 10vh;
-  height: 30vh;
-  width: auto;
-  left: 0;
-  border-radius: 10px;
+  bottom: 120px;
+  left: 20px; /* Aligns the video to the left edge */
+  width: 250px;
+  height: auto;
+  border-radius: 12px;
+  border: 2px solid #FF7700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  z-index: 10;
 }
 
+.videoPlaceholderInMeet {
+  position: absolute;
+  bottom: 120px;
+  left: 20px;
+  width: 250px;
+  height: auto;
+  min-height: 188px; /* Added to ensure consistent height with the video */
+  border-radius: 12px;
+  border: 2px solid #FF7700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  color: #aaa;
+  box-sizing: border-box; /* Ensures padding/border are included in the size */
+}
+
+/* Reusing the avatar and text styles */
+.videoPlaceholderInMeet .avatar {
+  font-size: 80px !important;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.videoPlaceholderInMeet p {
+  font-size: 1.1rem;
+  color: #ccc;
+  text-align: center;
+}
+
+/* 🎤 The control button container, now perfectly centered at the bottom 📷 */
 .btnContainer {
   position: absolute;
-  width: 100vw;
-  bottom: 0;
-  text-align: center;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%); /* This is a robust way to center the container */
+  display: flex;
+  gap: 25px;
+  padding: 15px 30px;
+  background-color: rgba(30, 30, 30, 0.7);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+}
+
+/* Styling for all control icons to make them white */
+.btnContainer .MuiIconButton-root {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white; /* All icons are now white by default */
+  transition: background-color 0.3s ease;
+}
+
+.btnContainer .MuiIconButton-root:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .btnContainer svg {
   font-size: 35px;
 }
 
+/* Container for other users' video feeds */
 .conferenceView {
   display: flex;
-  padding: 10px;
-  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .conferenceView video {
-  width: 45vw;
-  height: 30vh;
-  min-width: 30vw;
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
   border-radius: 10px;
+  border: 2px solid #FF7700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
+/* Chat Room styles - Start */
 .chatRoom {
   position: absolute;
-  height: 90vh;
+  top: 0;
   right: 0;
-  background-color: burlywood;
-  border-radius: 10px;
-  width: 30vw;
-  padding-inline: 20px;
+  width: 450px;
+  height: 100%;
+  background-color: whitesmoke;
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #d3d3d3;
+  transform: translateX(450px); 
+  transition: transform 0.3s ease-in-out;
+}
+
+.chatRoom.show {
+  transform: translateX(0);
 }
 
 .chatContainer {
-  position: relative;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  color: #7e8be0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chattingDisplay {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding-right: 10px;
+}
+
+.chattingDisplay::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chattingDisplay::-webkit-scrollbar-thumb {
+  background-color: whitesmoke;
+  border-radius: 4px;
+}
+
+.message {
+  margin-bottom: 15px;
+}
+
+.messageSender {
+  font-weight: bold;
+  color: #7e8be0;
+  margin-bottom: 5px;
+}
+
+.messageText {
+  color: #333;
+  word-wrap: break-word;
+}
+
+.noMessages {
+  color: #777;
+  text-align: center;
+  margin-top: 50px;
 }
 
 .chattingArea {
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.chattingArea .MuiFormControl-root {
+  flex: 1;
 }

@@ -9,6 +9,7 @@ import History from './pages/history.jsx';
 import About from './pages/about.jsx';
 import ScheduleMeeting from './pages/scheduleMeeting.jsx';
 import ScheduledMeetings from './pages/scheduleMeetings.jsx';
+import Help from "./pages/help.jsx";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -26,6 +27,7 @@ function App() {
           <Route path='/schedule-meeting' element={<ScheduleMeeting /> }/>
           {/* This below route will move to videoMeet page if any of the url is entered */}
           <Route path="/scheduled-meetings" element={<ScheduledMeetings />} />
+          <Route path="/help" element={<Help />} />
           <Route path='/:url' element={<VideoMeetComponent />} />
         </Routes>
       </AuthProvider>
