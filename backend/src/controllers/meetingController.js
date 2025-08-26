@@ -6,7 +6,7 @@ console.log('Meeting import value:', Meeting);
 
 export const scheduleMeeting = async (req, res) => {
   try {
-    const { title, description, startTime, duration, userPhone, token } = req.body;
+    const { title, description, startTime, meetingType, duration, userPhone, token } = req.body;
 
     //finding user from token
     const user = await User.findOne({ token });
@@ -26,6 +26,7 @@ export const scheduleMeeting = async (req, res) => {
       title,
       description,
       startTime,
+      meetingType,
       duration,
       userPhone,
     });
@@ -43,9 +44,32 @@ export const scheduleMeeting = async (req, res) => {
   }
 };
 
+// export const getMeetings = async (req, res) => {
+//   try {
+//     const meetings = await Meeting.find();
+//     res.status(200).json({ success: true, meetings });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 export const getMeetings = async (req, res) => {
   try {
-    const meetings = await Meeting.find();
+    const authHeader = req.headers.authorization;
+
+    if(!authHeader){
+      return res.status(401).json({ success: false, message: "Not token provided" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const user = await User.findOne({ token });
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+
+    const meetings = await Meeting.find({ 
+      user_id: user.username,
+      meetingType: "Scheduled Meet" }); 
     res.status(200).json({ success: true, meetings });
   } catch (error) {
     console.error(error);
@@ -53,12 +77,31 @@ export const getMeetings = async (req, res) => {
   }
 };
 
+
 export const clearAllMeetings = async (req, res) => {
   try {
-    await Meeting.deleteMany({});
-    res.status(200).json({ success: true, message: "All meetings cleared successfully" });
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      return res.status(401).json({ success: false, message: "No token provided" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const user = await User.findOne({ token });
+
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+
+    // Only delete meetings for this user
+    await Meeting.deleteMany({ 
+      user_id: user.username,
+      meetingType: "Schedule Meet" });
+
+    res.status(200).json({ success: true, message: "Your meetings cleared successfully" });
   } catch (error) {
     console.error("Clear Meetings Error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
+

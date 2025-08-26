@@ -149,6 +149,9 @@ export default function History() {
                                 <Typography style={pageStyles.typographyLabel}>
                                     <EventIcon fontSize="small" /> Date: <span style={pageStyles.typographyValue}>{formatDate(e.startTime)}</span>
                                 </Typography>
+                                <Typography style={pageStyles.typographyLabel}>
+                                    <EventIcon fontSize='small' /> Meeting Type: <span style={pageStyles.typographyValue}>{e.meetingType}</span>
+                                </Typography>
                             </CardContent>
                         </Card>
                     );

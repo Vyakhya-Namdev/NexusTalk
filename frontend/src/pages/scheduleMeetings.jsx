@@ -240,18 +240,23 @@ export default function ScheduledMeetings() {
   useEffect(() => {
     async function fetchMeetings() {
       try {
-        const res = await fetch("http://localhost:8000/api/v1/meetings");
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:8000/api/v1/meetings", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          }
+        });
         if (!res.ok) {
           throw new Error("Failed to fetch meetings");
         }
+
+        console.log("Getting all meetings of user");
         const data = await res.json();
         if (data.success) {
           const now = new Date();
-          const filteredMeetings = data.meetings.filter((meeting) => {
-            const startTime = new Date(meeting.startTime);
-            const thirtyMinutesAfterStart = new Date(startTime.getTime() + 30 * 60 * 1000);
-            return now < thirtyMinutesAfterStart;
-          });
+          const filteredMeetings = data.meetings;
           setMeetings(filteredMeetings.sort((a, b) => new Date(a.startTime) - new Date(b.startTime)));
         } else {
           setError("Error loading meetings");
@@ -300,6 +305,10 @@ export default function ScheduledMeetings() {
       try {
         const res = await fetch("http://localhost:8000/api/v1/meetings/clear", {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
         });
 
         if (!res.ok) throw new Error("Failed request");

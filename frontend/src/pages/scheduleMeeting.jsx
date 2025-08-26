@@ -76,6 +76,7 @@ export default function ScheduleMeeting() {
         title: form.title,
         description: form.description,
         startTime: startTimeISO,
+        meetingType: "Scheduled Meet",
         duration: form.duration,
         userPhone: form.userPhone,
         token: localStorage.getItem("token")  //to get the currently logged-in user Id
