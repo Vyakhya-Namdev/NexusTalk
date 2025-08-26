@@ -75,6 +75,7 @@ const addToHistory = async(req, res) => {
 
     try{
         const user = await User.findOne({ token: token });
+
         const newMeeting = new Meeting({
             user_id: user.username,
             meetingCode: meeting_code

@@ -59,20 +59,20 @@ export default function LandingPage() {
           <div className="rightImageScroll">
             <div className="imageTrack first">
               <img src="/images/img1.png" alt="img1" />
-              <img src="/images/img2.webp" alt="img2" />
-              <img src="/images/img3.webp" alt="img3" />
+              <img src="/images/img2.png" alt="img2" />
+              <img src="/images/img3.png" alt="img3" />
               <img src="/images/img1.png" alt="img1" />
-              <img src="/images/img2.webp" alt="img2" />
-              <img src="/images/img3.webp" alt="img3" />
+              <img src="/images/img2.png" alt="img2" />
+              <img src="/images/img3.png" alt="img3" />
             </div>
           </div>
 
           <div className="rightImageScroll">
             <div className="imageTrack second">
-              <img src="/images/img4.webp" alt="img4" />
+              <img src="/images/img4.png" alt="img4" />
               <img src="/images/img5.png" alt="img5" />
               <img src="/images/img6.png" alt="img6" />
-              <img src="/images/img4.webp" alt="img4" />
+              <img src="/images/img4.png" alt="img4" />
               <img src="/images/img5.png" alt="img5" />
               <img src="/images/img6.png" alt="img6" />
             </div>

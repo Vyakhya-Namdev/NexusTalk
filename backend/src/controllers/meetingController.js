@@ -1,38 +1,23 @@
 import { nanoid } from 'nanoid';
 import { Meeting } from "../models/meetingModel.js";
-import twilio from "twilio";
-import dayjs from "dayjs";
+import { User } from "../models/userModel.js";
 
 console.log('Meeting import value:', Meeting);
 
-const client = new twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
-
-// Helper function to send SMS (can be imported from a shared file)
-async function sendSMSReminder(to, meeting, instant = false) {
-  try {
-    const msg = await client.messages.create({
-      body: instant
-        ? `📅 Meeting Scheduled: "${meeting.title}" at ${dayjs(meeting.startTime).format("YYYY-MM-DD HH:mm")}`
-        : `📅 Reminder: Your meeting "${meeting.title}" starts at ${dayjs(meeting.startTime).format("YYYY-MM-DD HH:mm")}`,
-      messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
-      to
-    });
-    console.log(instant ? "✅ Instant SMS sent:" : "✅ Reminder sent:", msg.sid);
-  } catch (err) {
-    console.error("❌ Twilio Error:", err.message);
-  }
-}
-
 export const scheduleMeeting = async (req, res) => {
   try {
-    const { title, description, startTime, duration, userPhone } = req.body;
+    const { title, description, startTime, duration, userPhone, token } = req.body;
+
+    //finding user from token
+    const user = await User.findOne({ token });
+    if(!user){
+      return res.status(401).json({ success: false, message: "Invalid Token" });
+    }
+
     console.log('Incoming body:', req.body);
     console.log('Meeting import at controller:', Meeting);
 
-    const user_id = nanoid(10);
+    const user_id = user.username;
     const meetingCode = nanoid(6).toUpperCase();
 
     const meeting = new Meeting({
@@ -42,13 +27,11 @@ export const scheduleMeeting = async (req, res) => {
       description,
       startTime,
       duration,
-      userPhone
+      userPhone,
     });
-
+    
+    // console.log(meeting);
     await meeting.save();
-
-    // Send instant SMS on schedule
-    await sendSMSReminder(userPhone, meeting, true);
 
     // Use your domain for the meeting link
     const meetingLink = `https://meet.smilemeet.com/${meetingCode}`;
@@ -66,6 +49,16 @@ export const getMeetings = async (req, res) => {
     res.status(200).json({ success: true, meetings });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const clearAllMeetings = async (req, res) => {
+  try {
+    await Meeting.deleteMany({});
+    res.status(200).json({ success: true, message: "All meetings cleared successfully" });
+  } catch (error) {
+    console.error("Clear Meetings Error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

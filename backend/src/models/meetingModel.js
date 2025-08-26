@@ -6,12 +6,12 @@ const meettingSchema = new Schema({
     // date:  { type: Date, default: Date.now, required: true }
 
     user_id: { type: String, required: true },
-    meetingCode: { type: String, unique: true, required: true },
-    title: { type: String, required: true },
-    description: { type: String },
-    startTime: { type: Date, required: true },
+    meetingCode: { type: String, unique: true },
+    title: { type: String },
+    description: { type: String, default: "Instant Meeting" },
+    startTime: { type: Date, default: Date.now() },
     duration: { type: Number, default: 30 },
-    userPhone: { type: String, required: true },
+    userPhone: { type: String },
     reminderSent: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
 })

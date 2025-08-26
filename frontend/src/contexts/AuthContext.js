@@ -62,27 +62,34 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const addToUserHistory = async(meetingCode) => {
-        // const { token, meeting_code } = req.body;
+    const addToUserHistory = async (meetingCode) => {
+        console.log(localStorage.getItem("token"))
+        try {
+            const response = await client.post(
+                "/addtoactivity",
+                { meeting_code: meetingCode,
+                    token: localStorage.getItem('token')
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                }
+            );
 
-        try{
-            let request = await client.post("/addtoactivity", {
-                token: localStorage.getItem("token"),
-                meeting_code: meetingCode 
-            });
-
-            return request;
-        }catch(err){
-            throw err;
+            return response.data; 
+        } catch (err) {
+            console.error("Error adding to activity:", err.response?.data  || err.message);
+            return { success: false, error: err.response?.data || err.message };
         }
-    }
+    };
     const data = {
         userData, setUserData, handleRegister, handleLogin, getHistoryOfUser, addToUserHistory
     }
 
     return (
         <AuthContext.Provider value={data}>
-            {children}
+            {children} 
         </AuthContext.Provider>
     )
 }

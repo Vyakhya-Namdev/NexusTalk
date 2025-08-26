@@ -147,7 +147,7 @@ export default function History() {
                                     <CodeIcon fontSize="small" /> Code: <span style={pageStyles.typographyValue}>{e.meetingCode}</span>
                                 </Typography>
                                 <Typography style={pageStyles.typographyLabel}>
-                                    <EventIcon fontSize="small" /> Date: <span style={pageStyles.typographyValue}>{formatDate(e.date)}</span>
+                                    <EventIcon fontSize="small" /> Date: <span style={pageStyles.typographyValue}>{formatDate(e.startTime)}</span>
                                 </Typography>
                             </CardContent>
                         </Card>

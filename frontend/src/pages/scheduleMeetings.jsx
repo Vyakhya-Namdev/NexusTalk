@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import axios from "axios";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material"; // Import Dialog components
 
 export default function ScheduledMeetings() {
@@ -73,17 +74,17 @@ export default function ScheduledMeetings() {
       marginTop: '60px',
     },
     messageBox: { // This style will still exist but won't be directly rendered in JSX
-        backgroundColor: 'rgba(255, 119, 0, 0.15)',
-        color: '#FF7700',
-        padding: '10px 20px',
-        borderRadius: '8px',
-        margin: '15px 0',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        width: 'fit-content',
-        maxWidth: '80%',
-        animation: 'fadeIn 0.5s ease-out',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+      backgroundColor: 'rgba(255, 119, 0, 0.15)',
+      color: '#FF7700',
+      padding: '10px 20px',
+      borderRadius: '8px',
+      margin: '15px 0',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      width: 'fit-content',
+      maxWidth: '80%',
+      animation: 'fadeIn 0.5s ease-out',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
     },
     loading: {
       fontSize: '1.2rem',
@@ -100,15 +101,15 @@ export default function ScheduledMeetings() {
       borderRadius: '8px',
     },
     tableWrapper: {
-        width: '100%',
-        maxWidth: '1200px',
-        overflowX: 'auto',
-        borderRadius: '12px',
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-        backdropFilter: 'blur(5px)',
-        border: '1px solid rgba(255, 255, 255, 0.18)',
-        backgroundColor: 'rgba(30, 30, 50, 0.8)',
-        animation: 'fadeInUp 0.8s ease-out',
+      width: '100%',
+      maxWidth: '1200px',
+      overflowX: 'auto',
+      borderRadius: '12px',
+      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+      backdropFilter: 'blur(5px)',
+      border: '1px solid rgba(255, 255, 255, 0.18)',
+      backgroundColor: 'rgba(30, 30, 50, 0.8)',
+      animation: 'fadeInUp 0.8s ease-out',
     },
     table: {
       width: '100%',
@@ -193,10 +194,10 @@ export default function ScheduledMeetings() {
       },
     },
     noMeetings: {
-        textAlign: 'center',
-        fontSize: '1.3rem',
-        color: 'rgba(255, 255, 255, 0.7)',
-        marginTop: '50px',
+      textAlign: 'center',
+      fontSize: '1.3rem',
+      color: 'rgba(255, 255, 255, 0.7)',
+      marginTop: '50px',
     },
     // Styles for the new message dialog
     messageDialogPaper: {
@@ -251,7 +252,7 @@ export default function ScheduledMeetings() {
             const thirtyMinutesAfterStart = new Date(startTime.getTime() + 30 * 60 * 1000);
             return now < thirtyMinutesAfterStart;
           });
-          setMeetings(filteredMeetings.sort((a,b) => new Date(a.startTime) - new Date(b.startTime)));
+          setMeetings(filteredMeetings.sort((a, b) => new Date(a.startTime) - new Date(b.startTime)));
         } else {
           setError("Error loading meetings");
         }
@@ -290,16 +291,28 @@ export default function ScheduledMeetings() {
 
     showTemporaryMessage(`Starting meeting: ${meeting.meetingCode}... 🚀`);
     setTimeout(() => {
-        navigate(`/${meeting.meetingCode}`);
+      navigate(`/${meeting.meetingCode}`);
     }, 1500);
   };
 
-  const handleClearAllMeetings = () => {
+  const handleClearAllMeetings = async () => {
     if (window.confirm("Are you sure you want to clear all currently displayed meetings? This cannot be undone.")) {
-      setMeetings([]);
-      showTemporaryMessage("All meetings cleared from this view. ✨");
+      try {
+        const res = await fetch("http://localhost:8000/api/v1/meetings/clear", {
+          method: "DELETE",
+        });
+
+        if (!res.ok) throw new Error("Failed request");
+
+        setMeetings([]);
+        showTemporaryMessage("All meetings cleared permanently ✨");
+      } catch (error) {
+        console.error("Error clearing meetings:", error);
+        showTemporaryMessage("Failed to clear meetings ❌");
+      }
     }
   };
+
 
   if (loading) return <div style={styles.loading}>Loading scheduled meetings... ⏳</div>;
   if (error) return <div style={styles.error}>Error: {error} ❌</div>;
@@ -310,7 +323,7 @@ export default function ScheduledMeetings() {
       <style>{styles.keyframes}</style>
 
       <div style={styles.homeButtonContainer}>
-        <IconButton 
+        <IconButton
           onClick={() => navigate("/home")}
           style={styles.iconButton}
           onMouseEnter={() => setHoveredHomeButton(true)}
@@ -363,8 +376,8 @@ export default function ScheduledMeetings() {
                     <tr
                       key={meeting._id}
                       style={meetingExpired ? styles.expiredRow : styles.row}
-                      onMouseEnter={!meetingExpired ? () => {} : undefined}
-                      onMouseLeave={!meetingExpired ? () => {} : undefined}
+                      onMouseEnter={!meetingExpired ? () => { } : undefined}
+                      onMouseLeave={!meetingExpired ? () => { } : undefined}
                       sx={!meetingExpired ? ({} /* Add dynamic hover style here if needed*/) : {}}
                     >
                       <td style={styles.td}>{meeting.meetingCode}</td>

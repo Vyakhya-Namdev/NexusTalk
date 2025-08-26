@@ -28,7 +28,6 @@ export default function ScheduleMeeting() {
   const [openPostScheduleDialog, setOpenPostScheduleDialog] = useState(false); // For the new Post-Schedule Dialog
   const [meetingInfo, setMeetingInfo] = useState({
     meetingCode: "",
-    userId: "",
     meetingLink: "",
   });
 
@@ -79,19 +78,22 @@ export default function ScheduleMeeting() {
         startTime: startTimeISO,
         duration: form.duration,
         userPhone: form.userPhone,
+        token: localStorage.getItem("token")  //to get the currently logged-in user Id
       };
 
       const res = await fetch("http://localhost:8000/api/v1/meetings/schedule", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(payload),
       });
+
 
       if (res.ok) {
         const data = await res.json();
         setMeetingInfo({
           meetingCode: data?.meeting?.meetingCode || "",
-          userId: data?.meeting?.user_id || "",
           meetingLink: data?.meetingLink || "",
         });
         setOpenDialog(true); // Open the meeting details dialog first
@@ -130,7 +132,7 @@ export default function ScheduleMeeting() {
   };
 
   const handleGoToMainPage = () => {
-    navigate("/");
+    navigate("/home");
     setOpenPostScheduleDialog(false);
   };
 
@@ -206,7 +208,7 @@ export default function ScheduleMeeting() {
       fontWeight: '600',
       marginBottom: '5px',
       transition: 'color 0.3s',
-      ':focus-within': {
+      ':focusWithin': {
         color: '#FF7700',
       },
     },
@@ -230,8 +232,8 @@ export default function ScheduleMeeting() {
       },
     },
     textarea: {
-        minHeight: '80px',
-        resize: 'vertical',
+      minHeight: '80px',
+      resize: 'vertical',
     },
     highlight: {
       color: '#FF7700',
@@ -267,65 +269,65 @@ export default function ScheduleMeeting() {
     },
     // --- Dialog Styles (for both Meeting Details and Post-Schedule)
     dialogPaper: {
-        background: 'rgba(30, 30, 50, 0.9)',
-        color: 'white',
-        backdropFilter: 'blur(10px)',
-        borderRadius: '15px', // Rounded corners for dialog
-        border: '1px solid rgba(255, 255, 255, 0.2)',
+      background: 'rgba(30, 30, 50, 0.9)',
+      color: 'white',
+      backdropFilter: 'blur(10px)',
+      borderRadius: '15px', // Rounded corners for dialog
+      border: '1px solid rgba(255, 255, 255, 0.2)',
     },
     dialogTitle: {
-        color: '#FF7700',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        paddingBottom: '15px',
-        fontSize: '1.5rem',
+      color: '#FF7700',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      paddingBottom: '15px',
+      fontSize: '1.5rem',
     },
     dialogContent: {
-        paddingTop: '20px',
-        backgroundColor: 'transparent',
+      paddingTop: '20px',
+      backgroundColor: 'transparent',
     },
     textField: {
-        marginBottom: '15px',
-        '& .MuiInputBase-input': {
-            color: 'white',
+      marginBottom: '15px',
+      '& .MuiInputBase-input': {
+        color: 'white',
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: 'rgba(255, 255, 255, 0.3)',
         },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'rgba(255, 255, 255, 0.3)',
-            },
-            '&:hover fieldset': {
-                borderColor: '#FF7700',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: '#FF7700',
-                boxShadow: '0 0 8px rgba(255, 119, 0, 0.5)',
-            },
+        '&:hover fieldset': {
+          borderColor: '#FF7700',
         },
-        '& .MuiInputLabel-root': {
-            color: '#e0e0e0',
+        '&.Mui-focused fieldset': {
+          borderColor: '#FF7700',
+          boxShadow: '0 0 8px rgba(255, 119, 0, 0.5)',
         },
+      },
+      '& .MuiInputLabel-root': {
+        color: '#e0e0e0',
+      },
     },
     iconButtonDialog: { // Specific style for icon buttons in dialogs
-        color: '#FF7700',
-        transition: 'transform 0.2s',
-        ':hover': {
-            transform: 'scale(1.1)',
-        }
+      color: '#FF7700',
+      transition: 'transform 0.2s',
+      ':hover': {
+        transform: 'scale(1.1)',
+      }
     },
     // --- Post-Schedule Dialog Specific Styles
     postScheduleDialogContent: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '20px',
-        padding: '20px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '20px',
+      padding: '20px',
     },
     postScheduleDialogText: {
-        color: '#e0e0e0',
-        textAlign: 'center',
-        fontSize: '1.1rem',
-        marginBottom: '10px',
+      color: '#e0e0e0',
+      textAlign: 'center',
+      fontSize: '1.1rem',
+      marginBottom: '10px',
     },
     postScheduleButton: {
       padding: '12px 25px',
@@ -400,7 +402,7 @@ export default function ScheduleMeeting() {
 
       {/* Home Button */}
       <div style={styles.homeButtonContainer}>
-        <IconButton 
+        <IconButton
           onClick={() => navigate("/home")}
           style={styles.iconButton}
           onMouseEnter={() => setIsHomeButtonHovering(true)}
@@ -423,7 +425,7 @@ export default function ScheduleMeeting() {
         <form style={styles.scheduleForm} onSubmit={handleSubmit}>
           {/* Meeting title */}
           <label style={styles.label}>
-            Meeting Title 
+            Meeting Title
             <input
               required
               name="title"
@@ -447,7 +449,7 @@ export default function ScheduleMeeting() {
           </label>
           {/* Start Time */}
           <label style={styles.label}>
-            Start Time 
+            Start Time
             <input
               required
               name="startTime"
@@ -472,7 +474,7 @@ export default function ScheduleMeeting() {
           </label>
           {/* User Phone */}
           <label style={styles.label}>
-            Your Phone 
+            Your Phone
             <input
               required
               name="userPhone"
@@ -486,7 +488,7 @@ export default function ScheduleMeeting() {
           <button
             disabled={loading}
             type="submit"
-            style={{...styles.primaryBtn, ...(isSubmitButtonHovering && styles.primaryBtn[':hover'])}}
+            style={{ ...styles.primaryBtn, ...(isSubmitButtonHovering && styles.primaryBtn[':hover']) }}
             onMouseEnter={() => setIsSubmitButtonHovering(true)}
             onMouseLeave={() => setIsSubmitButtonHovering(false)}
           >
@@ -522,22 +524,6 @@ export default function ScheduleMeeting() {
             sx={styles.textField} // Apply MUI specific styling
           />
           <TextField
-            label="User ID"
-            value={meetingInfo.userId}
-            fullWidth
-            InputProps={{
-              readOnly: true,
-              endAdornment: (
-                <IconButton onClick={() => handleCopy(meetingInfo.userId)} style={styles.iconButtonDialog}>
-                  <ContentCopy />
-                </IconButton>
-              ),
-            }}
-            margin="normal"
-            variant="outlined"
-            sx={styles.textField} // Apply MUI specific styling
-          />
-          <TextField
             label="Meeting Link"
             value={meetingInfo.meetingLink}
             fullWidth
@@ -555,7 +541,7 @@ export default function ScheduleMeeting() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseMeetingDetailsDialog} style={{color: '#FF7700'}}>
+          <Button onClick={handleCloseMeetingDetailsDialog} style={{ color: '#FF7700' }}>
             Close
           </Button>
         </DialogActions>
@@ -569,28 +555,28 @@ export default function ScheduleMeeting() {
       >
         <DialogTitle style={styles.dialogTitle}>Where to next?</DialogTitle>
         <DialogContent style={styles.postScheduleDialogContent}>
-            <Typography style={styles.postScheduleDialogText}>
-                Your meeting is set! What would you like to do now?
-            </Typography>
-            <button
-                onClick={handleGoToScheduledMeetings}
-                style={{...styles.postScheduleButton, ...styles.goToMeetingsButton, ...(isGoToMeetingsButtonHovering && styles.goToMeetingsButton[':hover'])}}
-                onMouseEnter={() => setIsGoToMeetingsButtonHovering(true)}
-                onMouseLeave={() => setIsGoToMeetingsButtonHovering(false)}
-            >
-                Go to Scheduled Meetings
-            </button>
-            <button
-                onClick={handleGoToMainPage}
-                style={{...styles.postScheduleButton, ...styles.goToMainPageButton, ...(isGoToMainPageButtonHovering && styles.goToMainPageButton[':hover'])}}
-                onMouseEnter={() => setIsGoToMainPageButtonHovering(true)}
-                onMouseLeave={() => setIsGoToMainPageButtonHovering(false)}
-            >
-                Go to Main Page
-            </button>
+          <Typography style={styles.postScheduleDialogText}>
+            Your meeting is set! What would you like to do now?
+          </Typography>
+          <button
+            onClick={handleGoToScheduledMeetings}
+            style={{ ...styles.postScheduleButton, ...styles.goToMeetingsButton, ...(isGoToMeetingsButtonHovering && styles.goToMeetingsButton[':hover']) }}
+            onMouseEnter={() => setIsGoToMeetingsButtonHovering(true)}
+            onMouseLeave={() => setIsGoToMeetingsButtonHovering(false)}
+          >
+            Go to Scheduled Meetings
+          </button>
+          <button
+            onClick={handleGoToMainPage}
+            style={{ ...styles.postScheduleButton, ...styles.goToMainPageButton, ...(isGoToMainPageButtonHovering && styles.goToMainPageButton[':hover']) }}
+            onMouseEnter={() => setIsGoToMainPageButtonHovering(true)}
+            onMouseLeave={() => setIsGoToMainPageButtonHovering(false)}
+          >
+            Go to Home Page
+          </button>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClosePostScheduleDialog} style={{color: '#FF7700'}}>
+          <Button onClick={handleClosePostScheduleDialog} style={{ color: '#FF7700' }}>
             Close
           </Button>
         </DialogActions>

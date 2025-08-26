@@ -40,8 +40,8 @@ function HomeComponent() {
       alert("Please enter a meeting code before joining!");
       return;
     }
-    await addToUserHistory(meetingCode.trim());
-    navigate(`/${meetingCode.trim()}`);
+    await addToUserHistory(meetingCode);
+    navigate(`/${meetingCode}`);
   };
 
   const handleCopy = () => {

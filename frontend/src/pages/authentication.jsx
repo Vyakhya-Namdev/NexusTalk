@@ -11,30 +11,13 @@ import {
     Typography,
     IconButton
 } from '@mui/material';
+import { AuthContext } from '../contexts/AuthContext';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
-
-// Mock AuthContext with navigation
-const AuthContext = React.createContext({
-    handleLogin: async (username, password) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve('Login successful! Welcome to SmileMeet!');
-            }, 1500);
-        });
-    },
-    handleRegister: async (name, username, password) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve('Account created successfully! Please sign in.');
-            }, 1500);
-        });
-    }
-});
 
 const smileMeetTheme = createTheme({
     typography: {
@@ -90,54 +73,31 @@ export default function Authentication() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
-    const handleAuth = async () => {
-        if (!username || !password || (formState === 1 && (!name || !confirmPassword))) {
-            setError('Please fill in all required fields');
-            return;
-        }
-
-        if (formState === 1 && password !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
-
-        setLoading(true);
-        setError('');
-        
+     let handleAuth = async () => {
         try {
             if (formState === 0) {
-                let result = await handleLogin(username, password);
-                setMessage(result);
-                setOpen(true);
-                setError('');
+
+                let result = await handleLogin(username, password)
                 
-                // Navigate if login success
-                if (result === 'Login successful! Welcome to SmileMeet!') {
-                    setTimeout(() => {
-                        navigate('/home'); 
-                        console.log('Navigate to /home');
-                    }, 1000);
-                }
-            } else {
+
+            }
+            if (formState === 1) {
                 let result = await handleRegister(name, username, password);
+                console.log(result);
+                setUsername("");
                 setMessage(result);
                 setOpen(true);
-                setError('');
-                setTimeout(() => {
-                    setFormState(0);
-                    setName('');
-                    setUsername('');
-                    setPassword('');
-                    setConfirmPassword('');
-                }, 2000);
+                setError("")
+                setFormState(0)
+                setPassword("")
             }
         } catch (err) {
-            let msg = (err?.response?.data?.message) || 'An error occurred. Please try again.';
-            setError(msg);
-        } finally {
-            setLoading(false);
+
+            console.log(err);
+            let message = (err.response.data.message);
+            setError(message);
         }
-    };
+    }
 
     return (
         <ThemeProvider theme={smileMeetTheme}>
