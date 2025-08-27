@@ -98,7 +98,8 @@ export default function History() {
         const fetchHistory = async () => {
             try {
                 const history = await getHistoryOfUser();
-                setMeetings(history);
+                const attendedHistory = history.filter(meeting => meeting.status === "attended"); 
+                setMeetings(attendedHistory);
             } catch (err) {
                 console.log(err);
             }

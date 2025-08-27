@@ -105,3 +105,16 @@ export const clearAllMeetings = async (req, res) => {
   }
 };
 
+export const markAsAttended = async(req, res) => {
+  try{
+    const { id } = req.params;
+    const meeting = await Meeting.findByIdAndUpdate(
+      id, 
+      { $set: {attended: true }},
+      {new: true}
+    );
+    res.json(meeting);
+  }catch(err){
+    res.status(500).json({ message: "Error marking as attended" });
+  }
+}

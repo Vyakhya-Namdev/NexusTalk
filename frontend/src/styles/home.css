@@ -41,8 +41,7 @@ body {
 }
 
 .navBar h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
+    font-size: 2.2rem;
 }
 
 .navBar span {
@@ -178,7 +177,7 @@ body {
     transform: translateY(-20px);
     position: relative;
     width: 70vw;
-    max-width: 500px;
+    max-width: 600px;
     height: 100%;
 }
 
@@ -212,17 +211,16 @@ body {
 }
 
 .carousel-slide img {
-    max-width: 100%;
+    max-width: 200%;
     height: auto;
-    max-height: 350px; /* Increased image size */
+    max-height: 350px; 
 }
 
 .carousel-slide p {
-    margin-top: 20px;
-    font-size: 1.3rem; /* Adjusted font size for readability */
+    font-size: 1.3rem; 
     font-weight: 400;
+    max-width: 200%;
     color: #ccc;
-    line-height: 1.4;
     opacity: 0;
     transform: translateY(20px);
 }

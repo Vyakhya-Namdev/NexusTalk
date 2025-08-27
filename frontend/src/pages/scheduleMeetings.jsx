@@ -279,22 +279,37 @@ export default function ScheduledMeetings() {
     }, 3000); // Dialog will be open for 3 seconds
   };
 
+  const markAsAttended = async (meetingId) => {
+    try{
+      await fetch(`https://localhost:8000/api/v1/meetings/${meetingId}/attend`, {
+        method: "PATCH",
+        headers:{
+          "Content;Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+    }catch(err){
+      console.log("Error marking as attended", err);
+    }
+  }
+
   const handleStartMeeting = (meeting) => {
     const now = new Date();
     const startTime = new Date(meeting.startTime);
-    const thirtyMinutesAfterStart = new Date(startTime.getTime() + 30 * 60 * 1000);
+    const durationMinutesAfterStart = new Date(startTime.getTime() + meeting.duration * 60 * 1000);
 
     if (now < startTime) {
       showTemporaryMessage("Meeting has not started yet. Please wait until the scheduled time. ⏰");
       return;
     }
 
-    if (now > thirtyMinutesAfterStart) {
-      showTemporaryMessage(`This meeting has already ended. It was available for ${thirtyMinutesAfterStart} minutes after start time. 🙁`);
+    if (now > durationMinutesAfterStart) {
+      showTemporaryMessage(`This meeting has already ended. It was available for ${durationMinutesAfterStart} minutes after start time. 🙁`);
       return;
     }
 
     showTemporaryMessage(`Starting meeting: ${meeting.meetingCode}... 🚀`);
+    markAsAttended(meeting.user_id);
     setTimeout(() => {
       navigate(`/${meeting.meetingCode}`);
     }, 1500);
@@ -379,7 +394,7 @@ export default function ScheduledMeetings() {
                 {meetings.map((meeting, index) => {
                   const startTime = new Date(meeting.startTime);
                   const now = new Date();
-                  const meetingExpired = now > new Date(startTime.getTime() + 30 * 60 * 1000);
+                  const meetingExpired = now > new Date(startTime.getTime() + meeting.duration * 60 * 1000);
 
                   return (
                     <tr

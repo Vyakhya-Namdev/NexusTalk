@@ -22,7 +22,6 @@ export default function LandingPage() {
         </div>
         <div className='navList'>
           <a href='/about' className='nav-link'>About us</a>
-          <a href='/contact' className='nav-link'>Contact us</a>
           <a href='/guest' className='nav-link'>Join as Guest</a>
           <a href='/auth' className='nav-link'>Register</a>
           <a href='/auth'>

@@ -15,11 +15,11 @@ import { AuthContext } from '../contexts/AuthContext.js';
 const carouselData = [
   {
     image: 'images/logo3.png', 
-    text: "Enjoy crystal-clear audio and high-definition video for a seamless meeting experience."
+    text: "Securely connect with end-to-end encryption, ensuring your conversations stay private."
   },
   {
     image: 'images/logo2.png',
-    text: "Securely connect with end-to-end encryption, ensuring your conversations stay private."
+    text: "Enjoy crystal-clear audio and high-definition video for a seamless meeting experience."
   },
   {
     image: 'images/logo1.png',

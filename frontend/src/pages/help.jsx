@@ -192,7 +192,7 @@ export default function Help() {
           </AccordionSummary>
           <AccordionDetails style={styles.accordionDetails}>
             <Typography>
-              Welcome! To begin, simply navigate to the home page and choose to either **"Join a Meeting"** with an existing code or **"Schedule a Meeting"** to create a new one. Ensure your camera and microphone permissions are granted for a seamless experience.
+              Welcome! To begin, simply navigate to the home page and choose to either "Join a Meeting" with an existing code or "Schedule a Meeting" to create a new one. Ensure your camera and microphone permissions are granted for a seamless experience.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -213,7 +213,7 @@ export default function Help() {
           </AccordionSummary>
           <AccordionDetails style={styles.accordionDetails}>
             <Typography>
-              On the "Schedule a Meeting" page, fill in the meeting **title**, **description**, **start time**, desired **duration**, and your **phone number**. After submitting, you'll receive a unique meeting code and link to share with participants. You can then go to "Scheduled Meetings" to see your upcoming events.
+              On the "Schedule a Meeting" page, fill in the meeting "title", "description", "start time", desired "duration", and your "phone number". After submitting, you'll receive a unique meeting code and link to share with participants. You can then go to "Scheduled Meetings" to see your upcoming events.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -234,7 +234,7 @@ export default function Help() {
           </AccordionSummary>
           <AccordionDetails style={styles.accordionDetails}>
             <Typography>
-              To join a meeting, you'll need the **meeting code** provided by the host. Enter this code on the home page or click on a shared meeting link. Make sure your audio and video are enabled before joining for full participation.
+              To join a meeting, you'll need the "meeting code" provided by the host. Enter this code on the home page or click on a shared meeting link. Make sure your audio and video are enabled before joining for full participation.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -255,9 +255,9 @@ export default function Help() {
           </AccordionSummary>
           <AccordionDetails style={styles.accordionDetails}>
             <Typography>
-              **Camera/Mic Not Working?** Ensure browser permissions are granted and no other application is using them. <br /><br />
-              **Connection Issues?** Check your internet connection. <br /><br />
-              **Meeting Not Starting?** Verify the start time. Meetings can only be started at or within 30 minutes of their scheduled time.
+              "Camera/Mic Not Working?" Ensure browser permissions are granted and no other application is using them. <br /><br />
+              "Connection Issues?" Check your internet connection. <br /><br />
+              "Meeting Not Starting?" Verify the start time. Meetings can only be started at or within 30 minutes of their scheduled time.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -278,7 +278,7 @@ export default function Help() {
           </AccordionSummary>
           <AccordionDetails style={styles.accordionDetails}>
             <Typography>
-              Still having trouble? Feel free to reach out to our support team at <a href="mailto:support@yourwebsite.com" style={styles.link}>support@yourwebsite.com</a>. We're here to help!
+              Still having trouble? Feel free to reach out to our support team at <a href="mailto:support@yourwebsite.com" style={styles.link}>support@smilemeet.com</a>. We're here to help!
             </Typography>
           </AccordionDetails>
         </Accordion>

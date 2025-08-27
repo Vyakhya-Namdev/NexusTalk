@@ -14,6 +14,10 @@ const meettingSchema = new Schema({
     duration: { type: Number, default: 30 },
     userPhone: { type: String },
     reminderSent: { type: Boolean, default: false },
+    status: { type: String,
+        enum: ["attended", "not attended"],
+        default: "not attended"
+    },
     createdAt: { type: Date, default: Date.now }
 })
 

@@ -1,8 +1,8 @@
-html, body, #root {
+html, body {
   height: 100%;
   margin: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;  
+  overflow-y: auto;    
 }
 
 .about-container {
