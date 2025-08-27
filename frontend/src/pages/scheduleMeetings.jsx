@@ -290,7 +290,7 @@ export default function ScheduledMeetings() {
     }
 
     if (now > thirtyMinutesAfterStart) {
-      showTemporaryMessage("This meeting has already ended. It was available for 30 minutes after start time. 🙁");
+      showTemporaryMessage(`This meeting has already ended. It was available for ${thirtyMinutesAfterStart} minutes after start time. 🙁`);
       return;
     }
 

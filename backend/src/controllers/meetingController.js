@@ -96,7 +96,7 @@ export const clearAllMeetings = async (req, res) => {
     // Only delete meetings for this user
     await Meeting.deleteMany({ 
       user_id: user.username,
-      meetingType: "Schedule Meet" });
+      meetingType: "Scheduled Meet" });
 
     res.status(200).json({ success: true, message: "Your meetings cleared successfully" });
   } catch (error) {
