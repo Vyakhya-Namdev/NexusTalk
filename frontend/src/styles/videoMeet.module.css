@@ -100,33 +100,6 @@
   color: #ccc;
 }
 
-/* Styles for the Material-UI TextField component */
-.usernameInput {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  border-radius: 8px !important;
-}
-
-/* This targets the text color inside the input field */
-.usernameInput .MuiOutlinedInput-input {
-  color: white !important;
-}
-
-/* This targets the border of the input field when it's not focused */
-.usernameInput .MuiOutlinedInput-notchedOutline {
-  border-color: #FF7700 !important;
-}
-
-/* This targets the border of the input field when it is focused (active) */
-.usernameInput.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #FF7700 !important;
-}
-
-/* This targets the label color, making sure it stays orange */
-.usernameLabel {
-  color: #FF7700 !important;
-  font-size: 1rem;
-}
-
 /* Styling for the Connect button */
 .connectButton {
   background-color: #FF7700 !important;

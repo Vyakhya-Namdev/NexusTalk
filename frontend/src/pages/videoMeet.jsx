@@ -448,6 +448,28 @@ export default function VideoMeetComponent() {
             onChange={(e) => setUsername(e.target.value)}
             variant="outlined"
             InputLabelProps={{ className: styles.usernameLabel }}
+            sx={{
+    "& .MuiInputBase-input": {
+      color: "white", // text typed by user
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "rgba(255,255,255,0.5)", 
+      },
+      "&:hover fieldset": {
+        borderColor: "#FF7700",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#FF7700",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      color: "rgba(255,255,255,0.7)", // label color
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: "white", // label color when focused
+    },
+  }}
             InputProps={{ className: styles.usernameInput }}
           />
           <Button variant="contained" onClick={connect} className={styles.connectButton}>Connect</Button>

@@ -110,8 +110,8 @@ export const markAsAttended = async(req, res) => {
     const { id } = req.params;
     const meeting = await Meeting.findByIdAndUpdate(
       id, 
-      { $set: {attended: true }},
-      {new: true}
+      { $set: { status: "attended" }},
+      { new: true }
     );
     res.json(meeting);
   }catch(err){

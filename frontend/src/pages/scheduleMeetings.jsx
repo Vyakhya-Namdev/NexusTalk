@@ -281,10 +281,10 @@ export default function ScheduledMeetings() {
 
   const markAsAttended = async (meetingId) => {
     try{
-      await fetch(`https://localhost:8000/api/v1/meetings/${meetingId}/attend`, {
+      await fetch(`http://localhost:8000/api/v1/meetings/${meetingId}/attend`, {
         method: "PATCH",
         headers:{
-          "Content;Type": "application/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -309,7 +309,8 @@ export default function ScheduledMeetings() {
     }
 
     showTemporaryMessage(`Starting meeting: ${meeting.meetingCode}... 🚀`);
-    markAsAttended(meeting.user_id);
+    console.log("Marking meeting as attended");
+    markAsAttended(meeting._id);
     setTimeout(() => {
       navigate(`/${meeting.meetingCode}`);
     }, 1500);

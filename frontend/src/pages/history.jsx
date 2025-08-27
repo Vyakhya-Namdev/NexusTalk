@@ -98,7 +98,9 @@ export default function History() {
         const fetchHistory = async () => {
             try {
                 const history = await getHistoryOfUser();
-                const attendedHistory = history.filter(meeting => meeting.status === "attended"); 
+                console.log("All history from backend:", history); 
+                const attendedHistory = history.filter(meeting => meeting.status === "attended");
+                console.log("Filtered attended:", attendedHistory); 
                 setMeetings(attendedHistory);
             } catch (err) {
                 console.log(err);
