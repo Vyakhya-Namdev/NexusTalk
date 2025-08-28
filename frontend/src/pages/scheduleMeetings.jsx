@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import server from "../environment";
 import axios from "axios";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material"; // Import Dialog components
 
@@ -241,7 +242,7 @@ export default function ScheduledMeetings() {
     async function fetchMeetings() {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:8000/api/v1/meetings", {
+        const res = await fetch(`${server}/api/v1/meetings`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -281,7 +282,7 @@ export default function ScheduledMeetings() {
 
   const markAsAttended = async (meetingId) => {
     try{
-      await fetch(`http://localhost:8000/api/v1/meetings/${meetingId}/attend`, {
+      await fetch(`${server}/api/v1/meetings/${meetingId}/attend`, {
         method: "PATCH",
         headers:{
           "Content-Type": "application/json",
@@ -319,7 +320,7 @@ export default function ScheduledMeetings() {
   const handleClearAllMeetings = async () => {
     if (window.confirm("Are you sure you want to clear all currently displayed meetings? This cannot be undone.")) {
       try {
-        const res = await fetch("http://localhost:8000/api/v1/meetings/clear", {
+        const res = await fetch(`${server}/api/v1/meetings/clear`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

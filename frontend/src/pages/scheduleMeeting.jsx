@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home"; // Import HomeIcon
 import "../App.css"; // Assuming you have some base styles here
+import server from "../environment";
 
 export default function ScheduleMeeting() {
   const [form, setForm] = useState({
@@ -82,7 +83,7 @@ export default function ScheduleMeeting() {
         token: localStorage.getItem("token")  //to get the currently logged-in user Id
       };
 
-      const res = await fetch("http://localhost:8000/api/v1/meetings/schedule", {
+      const res = await fetch(`${server}/api/v1/meetings/schedule`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
