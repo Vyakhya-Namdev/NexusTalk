@@ -95,20 +95,32 @@ export default function History() {
     const [hoveredCard, setHoveredCard] = useState(null);
 
     useEffect(() => {
-        const fetchHistory = async () => {
-            try {
-                const history = await getHistoryOfUser();
-                console.log("All history from backend:", history); 
-                const attendedHistory = history.filter(meeting => meeting.status === "attended");
-                console.log("Filtered attended:", attendedHistory); 
-                setMeetings(attendedHistory);
-            } catch (err) {
-                console.log(err);
-            }
-        };
+    const fetchHistory = async () => {
+        try {
+            const history = await getHistoryOfUser();
+            console.log("All history from backend:", history);
 
-        fetchHistory();
-    }, [getHistoryOfUser]);
+            // Custom filter function
+            const filteredHistory = history.filter(meeting => {
+                if (meeting.meetingType === "Scheduled Meet") {
+                    return meeting.status === "attended"; // only attended
+                }
+                if (meeting.meetingType === "Instant Meet") {
+                    return true; // include all instant
+                }
+                return false;
+            });
+
+            console.log("Filtered history:", filteredHistory);
+            setMeetings(filteredHistory);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    fetchHistory();
+}, [getHistoryOfUser]);
+
 
     let formatDate = (dateString) => {
         const date = new Date(dateString);
