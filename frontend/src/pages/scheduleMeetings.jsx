@@ -281,7 +281,7 @@ export default function ScheduledMeetings() {
 
   const markAsAttended = async (meetingId) => {
     try{
-      await fetch(`${server}/api/v1/meetings/${meetingId}/attend`, {
+      await fetch(`${import.meta.env.BASE_URL}/api/v1/meetings/${meetingId}/attend`, {
         method: "PATCH",
         headers:{
           "Content-Type": "application/json",
@@ -319,7 +319,7 @@ export default function ScheduledMeetings() {
   const handleClearAllMeetings = async () => {
     if (window.confirm("Are you sure you want to clear all currently displayed meetings? This cannot be undone.")) {
       try {
-        const res = await fetch(`${server}/api/v1/meetings/clear`, {
+        const res = await fetch(`${import.meta.env.BASE_URL}/api/v1/meetings/clear`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
