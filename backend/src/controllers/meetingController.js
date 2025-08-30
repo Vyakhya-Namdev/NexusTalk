@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import { Meeting } from "../models/meetingModel.js";
 import { User } from "../models/userModel.js";
+import server from "../../../frontend/src/environment.js";
 
 console.log('Meeting import value:', Meeting);
 
@@ -35,7 +36,7 @@ export const scheduleMeeting = async (req, res) => {
     await meeting.save();
 
     // Use your domain for the meeting link
-    const meetingLink = `https://meet.smilemeet.com/${meetingCode}`;
+    const meetingLink = `${server}/${meetingCode}`;
 
     res.status(201).json({ success: true, meeting, meetingLink });
   } catch (error) {
