@@ -82,7 +82,7 @@ export default function ScheduleMeeting() {
         token: localStorage.getItem("token")  //to get the currently logged-in user Id
       };
 
-      const res = await fetch(`${import.meta.env.BASE_URL}/api/v1/meetings/schedule`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/meetings/schedule`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

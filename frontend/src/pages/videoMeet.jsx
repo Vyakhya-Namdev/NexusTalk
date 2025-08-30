@@ -14,7 +14,7 @@ import Badge from "@mui/material/Badge";
 import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 
-const server_url = import.meta.env.BASE_URL;
+const server_url = process.env.REACT_APP_API_BASE_URL;
 
 var connections = {};
 
