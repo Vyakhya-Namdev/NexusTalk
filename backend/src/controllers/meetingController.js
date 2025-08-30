@@ -36,7 +36,7 @@ export const scheduleMeeting = async (req, res) => {
     await meeting.save();
 
     // Use your domain for the meeting link
-    const meetingLink = `${server}/${meetingCode}`;
+    const meetingLink = `${import.meta.env.BASE_URL}/${meetingCode}`;
 
     res.status(201).json({ success: true, meeting, meetingLink });
   } catch (error) {

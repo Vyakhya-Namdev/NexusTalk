@@ -13,9 +13,8 @@ import ChatIcon from "@mui/icons-material/Chat";
 import Badge from "@mui/material/Badge";
 import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
-import server from "../environment";
 
-const server_url = server;
+const server_url = import.meta.env.BASE_URL;
 
 var connections = {};
 

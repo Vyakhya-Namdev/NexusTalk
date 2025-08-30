@@ -5,7 +5,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import server from "../environment";
 import axios from "axios";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material"; // Import Dialog components
 
@@ -242,7 +241,7 @@ export default function ScheduledMeetings() {
     async function fetchMeetings() {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`${server}/api/v1/meetings`, {
+        const res = await fetch(`${import.meta.env.BASE_URL}/api/v1/meetings`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
