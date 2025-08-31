@@ -1,7 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Meeting } from "../models/meetingModel.js";
 import { User } from "../models/userModel.js";
-import server from "../../../frontend/src/environment.js";
 
 console.log('Meeting import value:', Meeting);
 
