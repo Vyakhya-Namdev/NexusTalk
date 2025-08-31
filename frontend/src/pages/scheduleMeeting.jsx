@@ -556,6 +556,22 @@ export default function ScheduleMeeting() {
             variant="outlined"
             sx={styles.textField} // Apply MUI specific styling
           />
+          <TextField
+            label="Meeting Link"
+            value={meetingInfo.Link}
+            fullWidth
+            InputProps={{
+              readOnly: true,
+              endAdornment: (
+                <IconButton onClick={() => handleCopy(meetingInfo.meetingLink)} style={styles.iconButtonDialog}>
+                  <ContentCopy />
+                </IconButton>
+              ),
+            }}
+            margin="normal"
+            variant="outlined"
+            sx={styles.textField} 
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseMeetingDetailsDialog} style={{ color: '#FF7700' }}>

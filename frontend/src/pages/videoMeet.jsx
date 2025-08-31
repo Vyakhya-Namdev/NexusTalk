@@ -412,8 +412,8 @@ export default function VideoMeetComponent() {
       console.log(err);
     }
 
-    const isLoggedIn = Boolean(localStorage.getItem('token'));
-    if (isLoggedIn) {
+    const token = localStorage.getItem('token');
+    if (token && token.trim() !== "") {
       routeTo("/home");
     } else {
       routeTo("/");
