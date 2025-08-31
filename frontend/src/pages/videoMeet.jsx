@@ -411,7 +411,13 @@ export default function VideoMeetComponent() {
     } catch (err) {
       console.log(err);
     }
-    routeTo("/home");
+
+    const isLoggedIn = Boolean(localStorage.getItem('token'));
+    if (isLoggedIn) {
+      routeTo("/home");
+    } else {
+      routeTo("/");
+    }
   }
 
   return (
@@ -449,27 +455,27 @@ export default function VideoMeetComponent() {
             variant="outlined"
             InputLabelProps={{ className: styles.usernameLabel }}
             sx={{
-    "& .MuiInputBase-input": {
-      color: "white", // text typed by user
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "rgba(255,255,255,0.5)", 
-      },
-      "&:hover fieldset": {
-        borderColor: "#FF7700",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#FF7700",
-      },
-    },
-    "& .MuiInputLabel-root": {
-      color: "rgba(255,255,255,0.7)", // label color
-    },
-    "& .MuiInputLabel-root.Mui-focused": {
-      color: "white", // label color when focused
-    },
-  }}
+              "& .MuiInputBase-input": {
+                color: "white", // text typed by user
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "rgba(255,255,255,0.5)",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#FF7700",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#FF7700",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "rgba(255,255,255,0.7)", // label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white", // label color when focused
+              },
+            }}
             InputProps={{ className: styles.usernameInput }}
           />
           <Button variant="contained" onClick={connect} className={styles.connectButton}>Connect</Button>
@@ -497,17 +503,17 @@ export default function VideoMeetComponent() {
                 )}
               </div>
               <div className={styles.chattingArea}>
-                <TextField 
-                  value={message} 
-                  onChange={(e) => setMessage(e.target.value)} 
-                  id="outlined-basic" 
-                  label="Enter Chat" 
-                  variant="outlined" 
+                <TextField
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  id="outlined-basic"
+                  label="Enter Chat"
+                  variant="outlined"
                   fullWidth
                   InputLabelProps={{ style: { color: '#7e8be0' } }}
                   InputProps={{ style: { color: 'black' } }}
                 />
-                <Button variant="contained" onClick={sendMessage} style={{backgroundColor:"#7e8be0", padding: "12px 30px"}}>SEND</Button>
+                <Button variant="contained" onClick={sendMessage} style={{ backgroundColor: "#7e8be0", padding: "12px 30px" }}>SEND</Button>
               </div>
             </div>
           </div>
