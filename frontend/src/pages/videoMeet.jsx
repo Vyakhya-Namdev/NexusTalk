@@ -51,6 +51,7 @@ export default function VideoMeetComponent() {
   let [videos, setVideos] = useState([]);
   const [isLobbyVideoEnabled, setIsLobbyVideoEnabled] = useState(true);
   const [isLobbyAudioEnabled, setIsLobbyAudioEnabled] = useState(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     getPermissions()
@@ -365,7 +366,7 @@ export default function VideoMeetComponent() {
       getMedia(); // auto start media
     }
   }, [token]);
-  
+
   let connect = () => {
     setAskForUsername(false);
     getMedia();
