@@ -35,9 +35,9 @@ export default function LandingPage() {
         <div className='info'>
           <h1><span>Connect</span> with your Loved<br /> Ones...</h1>
           <p>From family to business, Connectly unites hearts and ideas across <br />every screen</p>
-          <a href='/auth'>
+          <Link to='/auth'>
             <button>Get Started</button>
-          </a>
+          </Link>
 
           <div className='links'>
             <IconButton className='circular-icon' onClick={() => router("/auth")}>
