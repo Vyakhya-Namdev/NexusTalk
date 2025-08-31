@@ -533,6 +533,38 @@ export default function ScheduleMeeting() {
       >
         <DialogTitle style={styles.dialogTitle}>Meeting Scheduled Successfully!</DialogTitle>
         <DialogContent dividers style={styles.dialogContent}>
+          <Typography variant="h6" align="center" style={{ color: '#FF7700', marginBottom: 8 }}>
+            Share SmileMeet
+          </Typography>
+          <Typography variant="body2" align="center" style={{ marginBottom: 12 }}>
+            Invite others to connect with you on <b>SmileMeet</b>.<br />
+            Fast, secure & joyful video calling for friends, family, and teams.
+          </Typography>
+          <Box display="flex" alignItems="center" justifyContent="center" mb={2}>
+            <TextField
+              value={meetingInfo.meetingLink}
+              fullWidth
+              InputProps={{
+                readOnly: true,
+                endAdornment: (
+                  <IconButton onClick={() => handleCopy(meetingInfo.meetingLink)} style={styles.iconButtonDialog}>
+                    <ContentCopy />
+                  </IconButton>
+                ),
+              }}
+              margin="normal"
+              variant="outlined"
+              sx={styles.textField}
+              style={{ maxWidth: 360 }}
+            />
+            <Button
+              variant="contained"
+              style={{ marginLeft: 8, background: '#FF7700', color: '#fff' }}
+              onClick={() => handleCopy(meetingInfo.meetingLink)}
+            >
+              Copy link
+            </Button>
+          </Box>
           <TextField
             label="Meeting Code"
             value={meetingInfo.meetingCode}
@@ -541,22 +573,6 @@ export default function ScheduleMeeting() {
               readOnly: true,
               endAdornment: (
                 <IconButton onClick={() => handleCopy(meetingInfo.meetingCode)} style={styles.iconButtonDialog}>
-                  <ContentCopy />
-                </IconButton>
-              ),
-            }}
-            margin="normal"
-            variant="outlined"
-            sx={styles.textField} // Apply MUI specific styling
-          />
-          <TextField
-            label="Meeting Link"
-            value={meetingInfo.meetingLink}
-            fullWidth
-            InputProps={{
-              readOnly: true,
-              endAdornment: (
-                <IconButton onClick={() => handleCopy(meetingInfo.meetingLink)} style={styles.iconButtonDialog}>
                   <ContentCopy />
                 </IconButton>
               ),

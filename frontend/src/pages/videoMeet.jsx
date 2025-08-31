@@ -51,7 +51,6 @@ export default function VideoMeetComponent() {
   let [videos, setVideos] = useState([]);
   const [isLobbyVideoEnabled, setIsLobbyVideoEnabled] = useState(true);
   const [isLobbyAudioEnabled, setIsLobbyAudioEnabled] = useState(true);
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     getPermissions()
@@ -355,17 +354,6 @@ export default function VideoMeetComponent() {
   }
 
   let routeTo = useNavigate();
-
-  useEffect(() => {
-    // Agar token nahi hai → guest login required
-    if (!token) {
-      setAskForUsername(true);
-    } else {
-      // logged-in user → skip lobby
-      setAskForUsername(false);
-      getMedia(); // auto start media
-    }
-  }, [token]);
 
   let connect = () => {
     setAskForUsername(false);

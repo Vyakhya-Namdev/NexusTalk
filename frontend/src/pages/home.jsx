@@ -149,7 +149,7 @@ function HomeComponent() {
             <div className="share-url-container">
               <span className="share-url-text">
                 {meetingCode && meetingCode.trim()
-                  ? `${window.location.origin}/${meetingCode.trim()}`
+                  ? `${meetingCode.trim()}`
                   : "You have not made your meeting code!"
                 }
               </span>
