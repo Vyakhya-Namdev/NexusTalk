@@ -355,6 +355,17 @@ export default function VideoMeetComponent() {
 
   let routeTo = useNavigate();
 
+  useEffect(() => {
+    // Agar token nahi hai → guest login required
+    if (!token) {
+      setAskForUsername(true);
+    } else {
+      // logged-in user → skip lobby
+      setAskForUsername(false);
+      getMedia(); // auto start media
+    }
+  }, [token]);
+  
   let connect = () => {
     setAskForUsername(false);
     getMedia();
