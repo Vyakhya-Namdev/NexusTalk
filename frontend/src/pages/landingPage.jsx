@@ -5,6 +5,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import ShareIcon from '@mui/icons-material/Share';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   const router = useNavigate();
