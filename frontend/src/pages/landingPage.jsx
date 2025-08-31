@@ -49,7 +49,7 @@ export default function LandingPage() {
             <IconButton className='circular-icon' onClick={() => router("/auth")}>
               <ScheduleIcon />
             </IconButton>
-            <IconButton className='circular-icon'>
+            <IconButton className='circular-icon' onClick={() => router("/auth")}>
               <AccountCircleIcon />
             </IconButton>
           </div>
