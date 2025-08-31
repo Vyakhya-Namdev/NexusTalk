@@ -21,16 +21,6 @@ app.use(cors());
 app.use(express.json({limit: "40kb"}));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
-//simulate directory
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename)
-
-// app.use(express.static(path.join(__dirname, "../public")));
-
-// app.get("/home", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../public/index.html"));
-// })
-
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/meetings", meetingRoutes);
 server.listen(app.get("port"), () => {

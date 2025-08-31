@@ -20,13 +20,13 @@ export default function LandingPage() {
         <div className='navHeader'>
           <h2><span>Smile</span>Meet</h2>
         </div>
-        <div className='navList'>
-          <a href='/about' className='nav-link'>About us</a>
-          <a href='/guest' className='nav-link'>Join as Guest</a>
-          <a href='/auth' className='nav-link'>Register</a>
-          <a href='/auth'>
+        <div className="navList">
+          <Link to="/about" className="nav-link">About us</Link>
+          <Link to="/guest" className="nav-link">Join as Guest</Link>
+          <Link to="/auth" className="nav-link">Register</Link>
+          <Link to="/auth">
             <button>Login</button>
-          </a>
+          </Link>
         </div>
       </nav>
 
