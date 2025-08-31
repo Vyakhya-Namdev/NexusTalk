@@ -48,11 +48,36 @@ export default function ScheduleMeeting() {
     }));
   };
 
-  const handleCopy = (text) => {
-    document.execCommand('copy'); // Use document.execCommand for clipboard in iframe
-    setMessage("Copied to clipboard!");
-    setTimeout(() => setMessage(""), 2000); // Clear message after 2 seconds
-  };
+const handleCopy = (text) => {
+  if (navigator.clipboard && window.isSecureContext) {
+    // navigator.clipboard works in https or localhost
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        setMessage("Copied to clipboard!");
+        setTimeout(() => setMessage(""), 2000);
+      })
+      .catch(err => {
+        console.error("Failed to copy: ", err);
+      });
+  } else {
+    // Fallback for older browsers
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed"; // avoid scrolling
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      setMessage("Copied to clipboard!");
+      setTimeout(() => setMessage(""), 2000);
+    } catch (err) {
+      console.error("Fallback: Oops, unable to copy", err);
+    }
+    document.body.removeChild(textArea);
+  }
+};
+
 
 
   const handleSubmit = async (e) => {

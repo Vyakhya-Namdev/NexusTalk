@@ -36,7 +36,7 @@ export const scheduleMeeting = async (req, res) => {
     await meeting.save();
 
     // Use your domain for the meeting link
-    const meetingLink = `https://meet.smilemeet.com/join/${meetingCode}`;
+    const meetingLink = `https://smilemeet-y9sm.onrender.com/${meetingCode}`;
 
     res.status(201).json({ success: true, meeting, meetingLink });
   } catch (error) {
