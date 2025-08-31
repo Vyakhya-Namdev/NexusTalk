@@ -19,7 +19,7 @@ function App() {
       <AuthProvider>
         <Routes>
           {/* if user is already logged in then directly open home page */}
-          <Route path='/' element={token ? <Navigate to="/home" /> : <LandingPage />} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='/auth' element={<Authentication />} />
           <Route path='/home' element={<HomeComponent />} />
           <Route path='/history' element={<History />} />
