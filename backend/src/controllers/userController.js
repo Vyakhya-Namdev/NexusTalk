@@ -1,45 +1,61 @@
 import { User } from "../models/userModel.js";
-import bcrypt, {hash} from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import httpStatus from "http-status";    //to track the http-status for error or success
 import crypto from "crypto";   //'crypto' is use for to make token
+import validate from "deep-email-validator";
 import { Meeting } from "../models/meetingModel.js";
 
+// Helper function to validate email using deep-email-validator
+const validateEmailAddress = async (email) => {
+    const { valid, reason } = await validateEmail(email);
+    return { valid, reason };
+};
+
 //login control
-const login = async(req, res) => {
+const login = async (req, res) => {
     const { username, password } = req.body;
-    if(!username || !password){
+    if (!username || !password) {
         return res.status(400).json({ message: "Please enter all information!" });
     }
 
-    try{
-        const user = await User.findOne({username});
-        if(!user){
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
             return res.status(httpStatus.NOT_FOUND).json({ message: "User not found!" });
         }
-        
+
         //check the password enetered by user is correct or not
         let isPasswordCorrect = await bcrypt.compare(password, user.password);
-        
-        if(isPasswordCorrect){
+
+        if (isPasswordCorrect) {
             let token = crypto.randomBytes(20).toString("hex");
             user.token = token;
             await user.save();
             return res.status(httpStatus.OK).json({ token: token });
-        }else{
-            return res.status(httpStatus.UNAUTHORIZED).json({message: "Invalid username or password"});
+        } else {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid username or password" });
         }
-    }catch(e){
-        return res.json({message: `Something went wrong ${e}`});
+    } catch (e) {
+        return res.json({ message: `Something went wrong ${e}` });
     }
 }
 
 //register control
-const register = async(req, res) => {
+const register = async (req, res) => {
     const { name, username, password } = req.body;
-    try{
+    // Validate email format and deliverability
+    try {
+        const { valid, reason } = await validateEmailAddress(username);
+        if (!valid) {
+            return res.status(400).json({ message: `Invalid email: ${reason}` });
+        }
+    } catch (e) {
+        return res.status(500).json({ message: "Email validation service error" });
+    }
+    try {
         const existingUser = await User.findOne({ username });
-        if(existingUser){
-            return res.status(httpStatus.FOUND).json({message: "User already exists"});
+        if (existingUser) {
+            return res.status(httpStatus.FOUND).json({ message: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -50,30 +66,30 @@ const register = async(req, res) => {
         });
 
         await newUser.save();
-        res.status(httpStatus.CREATED).json({message: "User Registered Successfully!"});
-    }catch(e){
-        res.json({message: `Something went wrong ${e}`});
+        res.status(httpStatus.CREATED).json({ message: "User Registered Successfully!" });
+    } catch (e) {
+        res.json({ message: `Something went wrong ${e}` });
     }
 }
 
 //history control by initialising meeting and users
-const getUserHistory = async(req, res) => {
-    const {token} = req.query;
+const getUserHistory = async (req, res) => {
+    const { token } = req.query;
 
-    try{
-        const user = await User.findOne({token: token});
-        const meetings = await Meeting.find({user_id: user.username});
+    try {
+        const user = await User.findOne({ token: token });
+        const meetings = await Meeting.find({ user_id: user.username });
         res.json(meetings)
-    }catch(err){
-        res.json({message: `Something went wrong ${err}`});
+    } catch (err) {
+        res.json({ message: `Something went wrong ${err}` });
     }
 }
 
 //add information to history
-const addToHistory = async(req, res) => {
-    const {token, meeting_code} = req.body;
+const addToHistory = async (req, res) => {
+    const { token, meeting_code } = req.body;
 
-    try{
+    try {
         const user = await User.findOne({ token: token });
 
         const newMeeting = new Meeting({
@@ -84,8 +100,8 @@ const addToHistory = async(req, res) => {
         await newMeeting.save();
 
         res.status(httpStatus.CREATED).json({ message: "Added code to history" })
-    }catch(err){
-        res.json({ message: `Something went wrong ${err}`});
+    } catch (err) {
+        res.json({ message: `Something went wrong ${err}` });
     }
 }
-export {login, register, getUserHistory, addToHistory};
+export { login, register, getUserHistory, addToHistory };
