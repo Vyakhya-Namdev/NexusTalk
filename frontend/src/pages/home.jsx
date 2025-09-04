@@ -49,11 +49,7 @@ function HomeComponent() {
   useEffect(() => {
     const fetchAllMeetings = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/meetings/allMeetings`, {
-          headers: {
-            "Content-Type": "application/json",
-        }
-      });
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/meetings/allMeetings`);
         setAllMeetings(res.data.meetings || []);
       } catch (error) {
         console.error("Error fetching all meetings", error);
