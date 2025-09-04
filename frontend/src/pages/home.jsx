@@ -47,53 +47,53 @@ function HomeComponent() {
   const [validationPopup, setValidationPopup] = useState({ open: false, message: "" });
 
   useEffect(() => {
-  const fetchAllMeetings = async () => {
-    try {
-      const res = await axios.get('http://localhost:8000/api/v1/meetings/allMeetings');
-      setAllMeetings(res.data.meetings || []);
-    } catch (error) {
-      console.error("Error fetching all meetings", error);
-    }
-  };
-  fetchAllMeetings();
-}, []);
+    const fetchAllMeetings = async () => {
+      try {
+        const res = await axios.get('http://localhost:8000/api/v1/meetings/allMeetings');
+        setAllMeetings(res.data.meetings || []);
+      } catch (error) {
+        console.error("Error fetching all meetings", error);
+      }
+    };
+    fetchAllMeetings();
+  }, []);
 
 
 
   const handleJoinVideoCall = async () => {
-  const code = meetingCode.trim().toUpperCase();
-  if (!code) {
-    setValidationPopup({ open: true, message: "Please enter a meeting code before joining!" });
-    return;
-  }
-
-  // Find meeting by code in allMeetings, ignoring user ownership or attendance
-  const meeting = allMeetings.find(m => m.meetingCode?.toUpperCase() === code);
-
-  if (!meeting) {
-    setValidationPopup({ open: true, message: "No meeting code found." });
-    return;
-  }
-
-  if (meeting.meetingType === "Scheduled Meet") {
-    const now = new Date();
-    const startTime = new Date(meeting.startTime);
-    const endTime = new Date(startTime.getTime() + meeting.duration * 60000);
-
-    if (now < startTime) {
-      setValidationPopup({ open: true, message: "Meeting has not been started yet." });
+    const code = meetingCode.trim().toUpperCase();
+    if (!code) {
+      setValidationPopup({ open: true, message: "Please enter a meeting code before joining!" });
       return;
     }
-    if (now > endTime) {
-      setValidationPopup({ open: true, message: "Scheduled meeting ended." });
+
+    // Find meeting by code in allMeetings, ignoring user ownership or attendance
+    const meeting = allMeetings.find(m => m.meetingCode?.toUpperCase() === code);
+
+    if (!meeting) {
+      setValidationPopup({ open: true, message: "No meeting code found." });
       return;
     }
-  }
 
-  // Record user history and navigate
-  await addToUserHistory(code);
-  navigate(`/${code}`);
-};
+    if (meeting.meetingType === "Scheduled Meet") {
+      const now = new Date();
+      const startTime = new Date(meeting.startTime);
+      const endTime = new Date(startTime.getTime() + meeting.duration * 60000);
+
+      if (now < startTime) {
+        setValidationPopup({ open: true, message: "Meeting has not been started yet." });
+        return;
+      }
+      if (now > endTime) {
+        setValidationPopup({ open: true, message: "Scheduled meeting ended." });
+        return;
+      }
+    }
+
+    // Record user history and navigate
+    await addToUserHistory(code);
+    navigate(`/${code}`);
+  };
 
 
   const handleCopy = () => {
@@ -268,12 +268,19 @@ function HomeComponent() {
       {validationPopup.open && (
         <div className="meeting-validation-popup-backdrop" onClick={() => setValidationPopup({ open: false, message: "" })}>
           <div className="meeting-validation-popup" onClick={e => e.stopPropagation()}>
+            <div className="popup-icon">⚠️</div>
             <h2>Alert</h2>
             <p>{validationPopup.message}</p>
-            <button onClick={() => setValidationPopup({ open: false, message: "" })}>Close</button>
+            <div className="popup-tip">You can double-check the meeting code or create a new meeting.</div>
+            <div className="popup-action-row">
+              <button onClick={() => setValidationPopup({ open: false, message: "" })}>Close</button>
+            </div>
+            <a href="/help" className="help-link">Need Help?</a>
           </div>
         </div>
       )}
+
+
     </>
   );
 }

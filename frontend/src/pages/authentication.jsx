@@ -73,14 +73,21 @@ export default function Authentication() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
-     let handleAuth = async () => {
+    let handleAuth = async () => {
         try {
             if (formState === 0) {
-
-                let result = await handleLogin(username, password)
-                
-
+                setLoading(true);
+                let result = await handleLogin(username, password);
+                setLoading(false);
+                setMessage(result.message || "User logged-in successfully!");
+                setOpen(true);
+                setError("");
+                setLoading(false);
+                setTimeout(() => {
+                    navigate("/home");  
+                }, 1000);
             }
+
             if (formState === 1) {
                 let result = await handleRegister(name, username, password);
                 console.log(result);
@@ -147,7 +154,7 @@ export default function Authentication() {
                         }}>
                             SmileMeet
                         </Typography>
-                        
+
                         <Typography sx={{
                             color: '#ffffff',
                             fontWeight: 600,
@@ -157,7 +164,7 @@ export default function Authentication() {
                         }}>
                             Connect with your Loved Ones...
                         </Typography>
-                        
+
                         <Typography sx={{
                             color: 'rgba(255, 255, 255, 0.7)',
                             fontSize: { xs: '0.95rem', md: '1rem' },
@@ -166,7 +173,7 @@ export default function Authentication() {
                         }}>
                             From family to business, Connectly unites hearts and ideas across every screen
                         </Typography>
-                        
+
                         <Box component="ul" sx={{
                             listStyle: 'none',
                             p: 0,
@@ -310,7 +317,7 @@ export default function Authentication() {
                                     />
                                 </Box>
                             )}
-                            
+
                             <Box sx={{ mb: 2.5 }}>
                                 <Typography sx={{
                                     color: 'rgba(255, 255, 255, 0.8)',
@@ -350,7 +357,7 @@ export default function Authentication() {
                                     variant="filled"
                                 />
                             </Box>
-                            
+
                             <Box sx={{ mb: formState === 1 ? 2.5 : 3 }}>
                                 <Typography sx={{
                                     color: 'rgba(255, 255, 255, 0.8)',
@@ -506,7 +513,7 @@ export default function Authentication() {
                                         Forgot your password?
                                     </Button>
                                 </Box>
-                            )}                           
+                            )}
                         </Box>
                     </Box>
                 </Box>

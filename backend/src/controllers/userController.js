@@ -4,11 +4,6 @@ import httpStatus from "http-status";    //to track the http-status for error or
 import crypto from "crypto";   //'crypto' is use for to make token
 import { Meeting } from "../models/meetingModel.js";
 
-// Helper function to validate email using deep-email-validator
-const validateEmailAddress = async (email) => {
-    const { valid, reason } = await validateEmail(email);
-    return { valid, reason };
-};
 
 //login control
 const login = async (req, res) => {
@@ -30,7 +25,7 @@ const login = async (req, res) => {
             let token = crypto.randomBytes(20).toString("hex");
             user.token = token;
             await user.save();
-            return res.status(httpStatus.OK).json({ token: token });
+            return res.status(httpStatus.OK).json({ token: token, message: "User logged-in successfully!" });
         } else {
             return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid username or password" });
         }

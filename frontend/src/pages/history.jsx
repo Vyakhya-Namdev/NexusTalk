@@ -7,11 +7,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import HomeIcon from "@mui/icons-material/Home";
 import EventIcon from '@mui/icons-material/Event'; 
-import CodeIcon from '@mui/icons-material/Code';   
+import CodeIcon from '@mui/icons-material/Code';   
 
 export default function History() {
     const { getHistoryOfUser } = useContext(AuthContext);
     const [meetings, setMeetings] = useState([]);
+    const [loading, setLoading] = useState(true);
     const routeTo = useNavigate();
 
     // Inline styles for the component
@@ -26,7 +27,7 @@ export default function History() {
             color: 'white',
             fontFamily: '"Inter", sans-serif',
             background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
-            animation: 'fadeIn 1s ease-in-out', // Added fade-in animation
+            animation: 'fadeIn 1s ease-in-out',
         },
         header: {
             fontSize: '2.5rem',
@@ -90,35 +91,46 @@ export default function History() {
             textAlign: 'center',
             marginTop: '50px',
         },
+        loadingMessage: {
+            fontSize: '1.5rem',
+            color: 'rgba(255, 255, 255, 0.8)',
+            textAlign: 'center',
+            marginTop: '50px',
+        },
     };
 
     const [hoveredCard, setHoveredCard] = useState(null);
 
     useEffect(() => {
-    const fetchHistory = async () => {
-        try {
-            const history = await getHistoryOfUser();
-            console.log("All history from backend:", history);
-
-            // Custom filter function
-            const filteredHistory = history.filter(meeting => {
-                if (meeting.meetingType === "Scheduled Meet") {
-                    return meeting.status === "attended"; // only attended
-                }
-                if (meeting.meetingType === "Instant Meet") {
-                    return true; // include all instant
-                }
-                return false;
-            });
-
-            console.log("Filtered history:", filteredHistory);
-            setMeetings(filteredHistory);
-        } catch (err) {
-            console.log(err);
+  const fetchHistory = async () => {
+    setLoading(true);
+    let start = Date.now(); // Record start time
+    try {
+      const history = await getHistoryOfUser();
+      // Your existing filtering code
+      const filteredHistory = history.filter(meeting => {
+        if (meeting.meetingType === "Scheduled Meet") {
+          return meeting.status === "attended";
         }
-    };
-
-    fetchHistory();
+        if (meeting.meetingType === "Instant Meet") {
+          return true;
+        }
+        return false;
+      });
+      setMeetings(filteredHistory);
+    } catch (err) {
+      console.log(err);
+    }
+    // Ensure minimum loading delay
+    const elapsed = Date.now() - start;
+    const minDelay = 1200; // 1.2 seconds
+    if (elapsed < minDelay) {
+      setTimeout(() => setLoading(false), minDelay - elapsed);
+    } else {
+      setLoading(false);
+    }
+  };
+  fetchHistory();
 }, [getHistoryOfUser]);
 
 
@@ -129,7 +141,6 @@ export default function History() {
         const year = date.getFullYear();
         const hours = date.getHours().toString().padStart(2, "0");
         const minutes = date.getMinutes().toString().padStart(2, "0");
-
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
@@ -148,12 +159,16 @@ export default function History() {
 
             <h1 style={pageStyles.header}>Meeting History 📜</h1>
 
-            {meetings.length > 0 ? (
-                meetings.map((e, idx) => {
-                    return (
+            {loading ? (
+                <Typography style={pageStyles.loadingMessage}>
+                    Loading scheduled meetings... <span role="img" aria-label="hourglass">⏳</span>
+                </Typography>
+            ) : (
+                meetings.length > 0 ? (
+                    meetings.map((e, idx) => (
                         <Card
                             key={idx}
-                            style={hoveredCard === idx ? {...pageStyles.card, ...pageStyles.cardHover} : pageStyles.card}
+                            style={hoveredCard === idx ? { ...pageStyles.card, ...pageStyles.cardHover } : pageStyles.card}
                             onMouseEnter={() => setHoveredCard(idx)}
                             onMouseLeave={() => setHoveredCard(null)}
                         >
@@ -165,28 +180,22 @@ export default function History() {
                                     <EventIcon fontSize="small" /> Date: <span style={pageStyles.typographyValue}>{formatDate(e.startTime)}</span>
                                 </Typography>
                                 <Typography style={pageStyles.typographyLabel}>
-                                    <EventIcon fontSize='small' /> Meeting Type: <span style={pageStyles.typographyValue}>{e.meetingType}</span>
+                                    <EventIcon fontSize="small" /> Meeting Type: <span style={pageStyles.typographyValue}>{e.meetingType}</span>
                                 </Typography>
                             </CardContent>
                         </Card>
-                    );
-                })
-            ) : (
-                <Typography style={pageStyles.noMeetsMessage}>
-                    You haven't had any meetings yet! Start one to see it here. 🚀
-                </Typography>
+                    ))
+                ) : (
+                    <Typography style={pageStyles.noMeetsMessage}>
+                        You haven't had any meetings yet! Start one to see it here. 🚀
+                    </Typography>
+                )
             )}
-            
-            {/* The animation keyframes must be included directly within the style tag or a CSS file */}
             <style>
                 {`
                 @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                    }
-                    to {
-                        opacity: 1;
-                    }
+                    from { opacity: 0; }
+                    to { opacity: 1; }
                 }
                 `}
             </style>

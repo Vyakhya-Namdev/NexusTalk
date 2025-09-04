@@ -259,16 +259,25 @@
 }
 
 
-.conferenceView.four {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-}
-
 .conferenceView.many {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: 1fr;
   justify-content: center;
+  gap: 1rem; 
+}
+
+/* For odd counts → center the last item */
+.conferenceView.many > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;    
+  justify-self: center;    
+  max-width: 300px;   
+}
+
+.conferenceView.many > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center; 
+  max-width: 300px; 
 }
 
 

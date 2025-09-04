@@ -6,7 +6,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Corrected import path for ExpandMoreIcon
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import InfoIcon from '@mui/icons-material/Info';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -84,14 +84,14 @@ export default function Help() {
       animation: "fadeInUp 0.8s ease-out",
     },
     subHeading: {
-        color: 'rgba(255, 255, 255, 0.8)',
-        textAlign: 'center',
-        fontSize: '1.1rem',
-        maxWidth: '700px',
-        marginBottom: '40px',
-        animation: 'fadeInUp 0.8s ease-out',
-        animationDelay: '0.1s',
-        animationFillMode: 'both',
+      color: 'rgba(255, 255, 255, 0.8)',
+      textAlign: 'center',
+      fontSize: '1.1rem',
+      maxWidth: '700px',
+      marginBottom: '40px',
+      animation: 'fadeInUp 0.8s ease-out',
+      animationDelay: '0.1s',
+      animationFillMode: 'both',
     },
     accordionWrapper: {
       width: "100%",
@@ -279,6 +279,69 @@ export default function Help() {
           <AccordionDetails style={styles.accordionDetails}>
             <Typography>
               Still having trouble? Feel free to reach out to our support team at <a href="mailto:support@yourwebsite.com" style={styles.link}>support@smilemeet.com</a>. We're here to help!
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* Account Management */}
+        <Accordion
+          expanded={expandedPanel === 'panel6'}
+          onChange={handleChange('panel6')}
+          style={styles.accordion}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon style={{ color: '#FF7700' }} />}
+            aria-controls="panel6a-content"
+            id="panel6a-header"
+            style={styles.accordionSummary}
+          >
+            <InfoIcon /> <Typography style={{color: 'inherit', fontSize: 'inherit', fontWeight: 'inherit'}}>Account Management</Typography>
+          </AccordionSummary>
+          <AccordionDetails style={styles.accordionDetails}>
+            <Typography>
+              You can update your profile information and change your password on the settings page. Make sure to save changes before leaving the page.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* Privacy and Security */}
+        <Accordion
+          expanded={expandedPanel === 'panel7'}
+          onChange={handleChange('panel7')}
+          style={styles.accordion}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon style={{ color: '#FF7700' }} />}
+            aria-controls="panel7a-content"
+            id="panel7a-header"
+            style={styles.accordionSummary}
+          >
+            <BugReportIcon /> <Typography style={{color: 'inherit', fontSize: 'inherit', fontWeight: 'inherit'}}>Privacy and Security</Typography>
+          </AccordionSummary>
+          <AccordionDetails style={styles.accordionDetails}>
+            <Typography>
+              SmileMeet encrypts all meeting data to ensure your conversations are private and secure. Regularly update your password and avoid sharing meeting codes publicly.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* Feature Requests */}
+        <Accordion
+          expanded={expandedPanel === 'panel8'}
+          onChange={handleChange('panel8')}
+          style={styles.accordion}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon style={{ color: '#FF7700' }} />}
+            aria-controls="panel8a-content"
+            id="panel8a-header"
+            style={styles.accordionSummary}
+          >
+            <LiveHelpIcon /> <Typography style={{color: 'inherit', fontSize: 'inherit', fontWeight: 'inherit'}}>Feature Requests</Typography>
+          </AccordionSummary>
+          <AccordionDetails style={styles.accordionDetails}>
+            <Typography>
+              Have ideas for new features or improvements? Please send your suggestions to <a href="mailto:features@smilemeet.com" style={styles.link}>features@smilemeet.com</a>. We love hearing from our community!
             </Typography>
           </AccordionDetails>
         </Accordion>

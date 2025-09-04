@@ -404,54 +404,126 @@ body {
   width: 100vw;
   height: 100vh;
   background: rgba(13, 17, 23, 0.85);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+  z-index: 2100;
+  animation: backdropFadeIn 0.4s;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .meeting-validation-popup {
-  background: #23243b;
-  color: #ffffff;
-  padding: 24px 32px;
-  border-radius: 16px;
-  width: 320px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #23243b 88%, #ff8300 110%);
+  color: #fff;
+  padding: 28px 36px 20px 36px;
+  border-radius: 20px;
+  width: 350px;
+  box-shadow: 0 12px 32px 0 rgba(0,0,0,0.7), 0 0 0 4px #ff830088;
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
   user-select: none;
+  border: 1.5px solid #ff8300bb;
+  position: relative;
+  animation: popupFadeIn 0.5s;
+}
+
+@keyframes popupFadeIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.meeting-validation-popup .popup-icon {
+  font-size: 2.5rem;
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #ff8300;
+  filter: drop-shadow(0 0 8px #ff8300aa);
+  animation: iconBounce 0.8s;
+}
+
+@keyframes iconBounce {
+  0%   { transform: translateY(-18px); }
+  30%  { transform: translateY(0px); }
+  60%  { transform: translateY(-6px);}
+  100% { transform: translateY(0px);}
 }
 
 .meeting-validation-popup h2 {
   color: #ff8300;
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 12px;
+  font-weight: 800;
+  font-size: 1.55rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px #ff830055;
 }
 
 .meeting-validation-popup p {
   margin: 0 0 20px;
-  font-size: 1.05rem;
-  color: #ccc;
+  font-size: 1.08rem;
+  color: #ffe6c2;
+}
+
+.meeting-validation-popup .popup-tip {
+  font-size: 0.95rem;
+  color: #ffb575;
+  margin-bottom: 7px;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.meeting-validation-popup .popup-action-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 15px;
 }
 
 .meeting-validation-popup button {
-  background: none;
-  border: 2px solid #ff8300;
-  color: #ff8300;
+  background: linear-gradient(110deg, #ff8300 60%, #ffe6c2 120%);
+  border: none;
+  color: #23243b;
   border-radius: 25px;
   padding: 10px 28px;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px #ff830055;
+  transition: all 0.2s cubic-bezier(.42,0,.58,1);
+  outline: none;
+}
+
+.meeting-validation-popup button:active {
+  transform: scale(0.95);
+  background: #fd9a36;
+  color: #23243b;
 }
 
 .meeting-validation-popup button:hover {
-  background: #ff8300;
-  color: #111;
+  background: #fff6e6;
+  color: #ff8300;
+  border: 1.5px solid #ff8300;
 }
+
+/* Optional: Help icon link styling */
+.meeting-validation-popup .help-link {
+  font-size: 1.1rem;
+  color: #ff8300;
+  text-decoration: none;
+  margin-top: 7px;
+  display: inline-block;
+  transition: color 0.2s;
+}
+
+.meeting-validation-popup .help-link:hover {
+  color: #ffeeaa;
+  text-decoration: underline;
+}
+
 
 
 /* Animations */
