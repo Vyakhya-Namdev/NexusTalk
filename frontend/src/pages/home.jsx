@@ -49,7 +49,7 @@ function HomeComponent() {
   useEffect(() => {
     const fetchAllMeetings = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/v1/meetings/allMeetings');
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/meetings/allMeetings`);
         setAllMeetings(res.data.meetings || []);
       } catch (error) {
         console.error("Error fetching all meetings", error);
@@ -166,7 +166,7 @@ function HomeComponent() {
                 label="Meeting Code"
                 variant="outlined"
               />
-              <Button onClick={handleJoinVideoCall} variant='contained' className='join-btn' disabled={allMeetings.length === 0}>Join</Button>
+              <Button onClick={handleJoinVideoCall} variant='contained' className='join-btn' >Join</Button>
             </div>
 
             <div className='links' style={{ position: "relative" }}>

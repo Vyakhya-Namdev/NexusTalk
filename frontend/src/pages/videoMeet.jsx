@@ -15,7 +15,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import ShareIcon from '@mui/icons-material/Share';
 
-const server_url = "http://localhost:8000";
+const server_url = process.env.REACT_APP_API_BASE_URL;
 var connections = {};
 
 const peerConfigreConnections = {
