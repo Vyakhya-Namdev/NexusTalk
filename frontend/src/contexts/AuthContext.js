@@ -6,7 +6,8 @@ import HttpStatus from "http-status";
 export const AuthContext = createContext({});
 
 const client = axios.create({
-    baseURL: `${process.env.REACT_APP_API_BASE_URL}/api/v1/users`
+    // baseURL: `${process.env.REACT_APP_API_BASE_URL}/api/v1/users`
+    baseURL: `http://localhost:8000/api/v1/users`
 });
 
 

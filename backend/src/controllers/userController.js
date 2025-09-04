@@ -2,7 +2,6 @@ import { User } from "../models/userModel.js";
 import bcrypt, { hash } from "bcrypt";
 import httpStatus from "http-status";    //to track the http-status for error or success
 import crypto from "crypto";   //'crypto' is use for to make token
-import validate from "deep-email-validator";
 import { Meeting } from "../models/meetingModel.js";
 
 // Helper function to validate email using deep-email-validator
@@ -43,15 +42,6 @@ const login = async (req, res) => {
 //register control
 const register = async (req, res) => {
     const { name, username, password } = req.body;
-    // Validate email format and deliverability
-    try {
-        const { valid, reason } = await validateEmailAddress(username);
-        if (!valid) {
-            return res.status(400).json({ message: `Invalid email: ${reason}` });
-        }
-    } catch (e) {
-        return res.status(500).json({ message: "Email validation service error" });
-    }
     try {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
@@ -104,4 +94,6 @@ const addToHistory = async (req, res) => {
         res.json({ message: `Something went wrong ${err}` });
     }
 }
+
+
 export { login, register, getUserHistory, addToHistory };

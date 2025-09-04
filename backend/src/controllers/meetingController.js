@@ -43,16 +43,6 @@ export const scheduleMeeting = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-// export const getMeetings = async (req, res) => {
-//   try {
-//     const meetings = await Meeting.find();
-//     res.status(200).json({ success: true, meetings });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
 export const getMeetings = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
@@ -118,3 +108,14 @@ export const markAsAttended = async(req, res) => {
     res.status(500).json({ message: "Error marking as attended" });
   }
 }
+
+export const getAllMeetings = async (req, res) => {
+  try {
+    // No user filtering, return all meetings
+    const meetings = await Meeting.find({});
+    res.status(200).json({ success: true, meetings });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
