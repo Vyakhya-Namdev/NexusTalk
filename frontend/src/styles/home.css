@@ -179,9 +179,9 @@ body {
 .circular-icon-meet {
     background-color: rgba(255, 255, 255, 0.10) !important;
     color: #f0f6fc !important;
-    border-radius: 16px;              /* Smooth, modern rounded corners */
-    height: 44px;
-    min-width: 134px;
+    border-radius: 10px;              /* Smooth, modern rounded corners */
+    height: 50px;
+    min-width: 140px;
     padding: 0 22px 0 17px;
     display: flex;
     align-items: center;
