@@ -177,16 +177,19 @@ body {
 
 /* Pill-style for only "New Meeting" */
 .rectangular-meet-button {
-  background-color: #404651 !important;
+  background-color:  rgba(255, 255, 255, 0.08)  !important;
   color: white !important;
   border-radius: 6px !important;
   padding: 8px 16px !important;
-  text-transform: none !important;
+  text-transform: none !important;  
+  transition: transform 0.3s, background-color 0.3s;
+  font-size: 1.5rem;
   font-weight: 500 !important;
 }
 
 .rectangular-meet-button:hover {
-  background-color: #4a5162 !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-5px);
 }
 
 
