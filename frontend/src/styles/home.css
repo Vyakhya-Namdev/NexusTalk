@@ -182,13 +182,15 @@ body {
   border-radius: 6px !important;
   padding: 8px 16px !important;
   text-transform: none !important;  
-  transition: transform 0.3s, background-color 0.3s;
+  transition: transform 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
   font-size: 1.5rem;
   font-weight: 500 !important;
 }
 
 .rectangular-meet-button:hover {
     background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #7e8be0 ;
+    box-shadow: 0 4px 16px #ff770040;
     transform: translateY(-5px);
 }
 
