@@ -168,6 +168,30 @@ body {
     font-size: 1.8rem;
 }
 
+.circular-icon-meet {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #f0f6fc !important;
+    width: 48px;                  /* Explicit size for perfect circle */
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;           /* Ensures it's a circle */
+    transition: transform 0.3s, background-color 0.3s;
+    cursor: pointer;              /* Optional: cursor pointer for better UX */
+    margin-right: 8px;            /* Optional: spacing between icon and text */
+}
+
+.circular-icon-meet:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-5px);
+}
+
+.circular-icon-meet .MuiSvgIcon-root {
+    font-size: 1.8rem;
+}
+
+
 /* Right Panel - Carousel */
 .rightPanel {
     padding: 0 120px;

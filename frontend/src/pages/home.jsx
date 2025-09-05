@@ -171,7 +171,7 @@ function HomeComponent() {
 
             <div className='links' style={{ position: "relative" }}>
               <IconButton
-                className='circular-icon'
+                className='circular-icon-meet'
                 size='small'
                 onClick={() => setIsInstantMeetOpen(!isInstantMeetOpen)}
               >
