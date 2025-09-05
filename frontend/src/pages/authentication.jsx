@@ -75,16 +75,16 @@ export default function Authentication() {
 
     let handleAuth = async () => {
         try {
+            setLoading(true);
+
             if (formState === 0) {
-                setLoading(true);
                 let result = await handleLogin(username, password);
-                setLoading(false);
                 setMessage(result.message || "User logged-in successfully!");
-                setOpen(true);
                 setError("");
-                setLoading(false);
+                setOpen(true);
+
                 setTimeout(() => {
-                    navigate("/home");  
+                    navigate("/home");
                 }, 1000);
             }
 
@@ -93,18 +93,20 @@ export default function Authentication() {
                 console.log(result);
                 setUsername("");
                 setMessage(result);
+                setError("");
                 setOpen(true);
-                setError("")
-                setFormState(0)
-                setPassword("")
+                setFormState(0);
+                setPassword("");
+                setConfirmPassword("");
             }
         } catch (err) {
-
             console.log(err);
-            let message = (err.response.data.message);
+            let message = err?.response?.data?.message || "Something went wrong!";
             setError(message);
+        } finally {
+            setLoading(false); // 
         }
-    }
+    };
 
     return (
         <ThemeProvider theme={smileMeetTheme}>
