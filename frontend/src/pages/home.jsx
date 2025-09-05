@@ -170,13 +170,14 @@ function HomeComponent() {
             </div>
 
             <div className='links' style={{ position: "relative" }}>
-              <IconButton
-                className='circular-icon-meet'
+              <Button
+                className='rectangular-meet-button'
                 size='small'
+                startIcon={<AddIcon />}
                 onClick={() => setIsInstantMeetOpen(!isInstantMeetOpen)}
               >
-                <AddIcon /> New Meeting
-              </IconButton>
+                New Meeting
+              </Button>
               <IconButton className='circular-icon' onClick={() => setIsShareOpen(!isShareOpen)}>
                 <ShareIcon />
               </IconButton>

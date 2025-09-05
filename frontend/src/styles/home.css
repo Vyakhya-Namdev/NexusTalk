@@ -176,37 +176,17 @@ body {
 }
 
 /* Pill-style for only "New Meeting" */
-.circular-icon-meet {
-    background-color: rgba(255, 255, 255, 0.10) !important;
-    color: #f0f6fc !important;
-    border-radius: 10px;              /* Smooth, modern rounded corners */
-    height: 50px;
-    min-width: 140px;
-    padding: 0 22px 0 17px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 1.05rem;
-    font-weight: 500;
-    box-shadow: 0 2px 14px rgba(0,0,0,0.10);
-    border: none;
-    gap: 11px;                        /* Space between icon and text */
-    cursor: pointer;
-    transition: 
-      background-color 0.25s, 
-      transform 0.2s, 
-      box-shadow 0.2s;
+.rectangular-meet-button {
+  background-color: #404651 !important;
+  color: white !important;
+  border-radius: 6px !important;
+  padding: 8px 16px !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
 }
 
-.circular-icon-meet:hover {
-    background-color: rgba(255,255,255,0.20) !important;
-    color: #fff !important;
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 6px 24px rgba(100,120,255,0.10);
-}
-
-.circular-icon-meet .MuiSvgIcon-root {
-    font-size: 1.45em;
+.rectangular-meet-button:hover {
+  background-color: #4a5162 !important;
 }
 
 
